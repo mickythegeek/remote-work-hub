@@ -5,6 +5,7 @@ import AuthPage from './pages/AuthPage';
 import JobBoardPage from './pages/JobBoardPage';
 import SavedJobsPage from './pages/SavedJobsPage';
 import TrackerPage from './pages/TrackerPage';
+import JobDetailsPage from './pages/JobDetailsPage';
 
 function NavBar() {
   const { authToken, setAuthToken, savedJobs } = useApp();
@@ -47,7 +48,7 @@ function AppRoutes() {
         <Route path="/saved" element={<SavedJobsPage />} />
         <Route path="/tracker" element={<TrackerPage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/jobs/:id" element={<JobBoardPage />} />
+        <Route path="/jobs/:id" element={<JobDetailsPage />} />
       </Routes>
     </BrowserRouter>
   );

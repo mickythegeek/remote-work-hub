@@ -195,7 +195,7 @@ function CompactCard({ job, isSaved, onSave, onClick }: { job: Job; isSaved: boo
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {job.salary ? <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)' }}>{job.salary}</span> : <span />}
         <button
-          onClick={e => { e.stopPropagation(); }}
+          onClick={e => { e.stopPropagation(); onClick(); }}
           className="btn btn--secondary btn--sm"
           style={{ fontSize: '0.75rem' }}
         >
