@@ -1,12 +1,15 @@
 import express, { Request, Response, NextFunction } from 'express';
 import * as Sentry from '@sentry/node';
 import authRoutes from './routes/authRoutes';
+import jobRoutes from './routes/jobRoutes';
+import cors from 'cors';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 
 app.get('/api', (req: Request, res: Response) => {
@@ -15,6 +18,7 @@ app.get('/api', (req: Request, res: Response) => {
 
 // Mounted Routes
 app.use('/api/auth', authRoutes);
+app.use('/api/jobs', jobRoutes);
 
 // Sentry hook to capture unhandled errors
 Sentry.setupExpressErrorHandler(app);
