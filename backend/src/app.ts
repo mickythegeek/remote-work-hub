@@ -1,5 +1,6 @@
 import express, { Request, Response, NextFunction } from 'express';
 import * as Sentry from '@sentry/node';
+import authRoutes from './routes/authRoutes';
 import dotenv from 'dotenv';
 
 dotenv.config();
@@ -11,6 +12,9 @@ app.use(express.json());
 app.get('/api', (req: Request, res: Response) => {
   res.json({ message: 'Remote Work Hub API is running...' });
 });
+
+// Mounted Routes
+app.use('/api/auth', authRoutes);
 
 // Sentry hook to capture unhandled errors
 Sentry.setupExpressErrorHandler(app);

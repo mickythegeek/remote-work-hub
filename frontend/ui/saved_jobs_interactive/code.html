@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Saved Jobs | The Digital Curator</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ffb781",
+                        "on-primary-container": "#91c5ff",
+                        "surface-container-low": "#f3f3f7",
+                        "surface-dim": "#d9dadd",
+                        "surface-variant": "#e2e2e6",
+                        "secondary-container": "#cde2fd",
+                        "on-surface-variant": "#41474f",
+                        "inverse-surface": "#2e3133",
+                        "inverse-primary": "#9ccaff",
+                        "tertiary-fixed": "#ffdcc4",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed-variant": "#00497b",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#51647b",
+                        "on-error-container": "#93000a",
+                        "outline": "#727780",
+                        "surface-container-high": "#e7e8eb",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "tertiary": "#5a2c00",
+                        "surface-bright": "#f9f9fd",
+                        "tertiary-container": "#7c3f00",
+                        "surface-container": "#edeef1",
+                        "on-tertiary-fixed": "#2f1400",
+                        "surface": "#f9f9fd",
+                        "on-secondary-fixed": "#061d31",
+                        "background": "#f9f9fd",
+                        "on-tertiary-container": "#ffb073",
+                        "on-primary": "#ffffff",
+                        "surface-tint": "#206298",
+                        "on-background": "#191c1e",
+                        "surface-container-highest": "#e2e2e6",
+                        "on-surface": "#191c1e",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#001d35",
+                        "secondary-fixed": "#d0e4ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#d0e4ff",
+                        "on-secondary-fixed-variant": "#35485e",
+                        "outline-variant": "#c1c7d1",
+                        "secondary-fixed-dim": "#b4c8e3",
+                        "primary": "#003a63",
+                        "secondary": "#4c6077",
+                        "primary-container": "#005288",
+                        "primary-fixed-dim": "#9ccaff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#f0f0f4",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift-surface-container-low {
+            background-color: #f3f3f7;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md fixed top-0 w-full z-50 shadow-sm shadow-[0_1px_0_0_rgba(0,0,0,0.05)]">
+<nav class="flex justify-between items-center px-10 py-5 max-w-[1440px] mx-auto">
+<div class="text-2xl font-extrabold tracking-tighter text-sky-950 dark:text-sky-50 font-headline">
+                The Digital Curator
+            </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-slate-500 dark:text-slate-400 hover:text-sky-800 dark:hover:text-sky-200 transition-colors font-headline font-bold tracking-tight text-lg" href="screen_15.html">Jobs</a>
+<a class="text-sky-900 dark:text-sky-400 border-b-2 border-sky-900 dark:border-sky-400 pb-1 font-headline font-bold tracking-tight text-lg" href="screen_6.html">Saved</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-sky-800 dark:hover:text-sky-200 transition-colors font-headline font-bold tracking-tight text-lg" href="screen_2.html">Tracker</a>
+</div>
+<div class="flex items-center">
+<button class="hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-all p-2 active:scale-95 duration-200">
+<span class="material-symbols-outlined text-sky-900 dark:text-sky-400">account_circle</span>
+</button>
+</div>
+</nav>
+</header>
+<main class="pt-32 pb-24 px-6 md:px-10 max-w-[1440px] mx-auto min-h-screen">
+<!-- Header Section -->
+<div class="flex items-baseline space-x-4 mb-12">
+<h1 class="text-[3.5rem] font-headline font-extrabold tracking-tight text-on-surface leading-none">Saved Jobs</h1>
+<span class="bg-secondary-container text-on-secondary-container px-4 py-1 rounded-full font-label font-semibold text-lg">8</span>
+</div>
+<!-- Asymmetric Grid of Job Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Job Card 1 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between shadow-[0px_24px_48px_rgba(25,28,30,0.06)] hover:scale-[1.02] hover:shadow-[0px_32px_64px_rgba(25,28,30,0.1)] transition-all duration-300">
+<button class="absolute top-6 right-6 text-on-surface-variant/40 hover:text-error transition-colors p-2 active:scale-90">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<div>
+<div class="w-16 h-16 rounded-xl overflow-hidden mb-6 bg-surface-container-low flex items-center justify-center">
+<img alt="Company Logo" class="w-10 h-10 object-contain" data-alt="Modern minimalist tech company logo with abstract geometric shapes in deep blue and teal on a clean white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1jnzx9TKritz9bPPsuRu_9CCvJSkjIXJ7-Sp36Z5fK3gLHl9JRJ8hfyUomipeE041o2CGkM9I7FErj7261iJS1pltII_Tt1NYmFAaigCJmCv-xXuLL09U33-YZZ3GfqwrP4mM2sE8_hvf2j9haKMoXh34agOjdsSW4zZjRxyarcKjumySbG9Yk_iZDIIxxCoB8ItD9B7dkHLARyQSmCXWNGCdXyLPFXDpyuF24sS9U7-1YQzx4Z0melWyIAz1hLd9uyakJpZypDg"/>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Senior Product Designer</h3>
+<p class="text-on-surface-variant font-medium mb-4">Lumina Systems</p>
+<div class="flex items-center text-on-surface-variant/70 text-sm mb-6">
+<span class="material-symbols-outlined text-base mr-1">location_on</span>
+<span>Remote, SF</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Full-time</span>
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">$160k - $210k</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-label font-bold text-sm tracking-tight hover:shadow-md hover:opacity-90 active:scale-95 transition-all" onclick="window.location.href='screen_2.html'">
+                        Move to Tracker
+                    </button>
+<button class="w-full py-3 bg-surface-container-high text-on-secondary-container rounded-full font-label font-bold text-sm tracking-tight hover:bg-surface-container-highest active:scale-95 transition-all" onclick="window.location.href='screen_5.html'">
+                        View Job Description
+                    </button>
+</div>
+</div>
+<!-- Job Card 2 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between shadow-[0px_24px_48px_rgba(25,28,30,0.06)] hover:scale-[1.02] hover:shadow-[0px_32px_64px_rgba(25,28,30,0.1)] transition-all duration-300 md:translate-y-12">
+<button class="absolute top-6 right-6 text-on-surface-variant/40 hover:text-error transition-colors p-2 active:scale-90">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<div>
+<div class="w-16 h-16 rounded-xl overflow-hidden mb-6 bg-surface-container-low flex items-center justify-center">
+<img alt="Company Logo" class="w-10 h-10 object-contain" data-alt="Elegant boutique branding logo with sophisticated serif typography and a minimal gold accent on ivory background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0AxKkiYM-eEATOLJEZR806zkv6vqzYgDUJPq_rAzBp8SvKumpC7MeKQy1_2igAQ1BBSCvDuS5XV6H_Jfd-DLBN98rYVlnGPBT2gJO5UVTCNZ4pmNnL2VQ-FhJOR9LBsWz0a3pUYupUKUB1u4yORBVYKNJUcnZ__wwLxlw0mwRfbOCmB-_n0_x6HcLNNDJkmT8PoAI9UIADHyDtSjhO2yKwO1z5frLoB4r0Ih3XOUnO2fTCowDg33poBYJ_t49en5rBNiIxW-JazU"/>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Lead Creative Director</h3>
+<p class="text-on-surface-variant font-medium mb-4">Vanguard Agency</p>
+<div class="flex items-center text-on-surface-variant/70 text-sm mb-6">
+<span class="material-symbols-outlined text-base mr-1">location_on</span>
+<span>London, UK</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Contract</span>
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Hybrid</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-label font-bold text-sm tracking-tight hover:shadow-md hover:opacity-90 active:scale-95 transition-all" onclick="window.location.href='screen_2.html'">
+                        Move to Tracker
+                    </button>
+<button class="w-full py-3 bg-surface-container-high text-on-secondary-container rounded-full font-label font-bold text-sm tracking-tight hover:bg-surface-container-highest active:scale-95 transition-all" onclick="window.location.href='screen_5.html'">
+                        View Job Description
+                    </button>
+</div>
+</div>
+<!-- Job Card 3 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between shadow-[0px_24px_48px_rgba(25,28,30,0.06)] hover:scale-[1.02] hover:shadow-[0px_32px_64px_rgba(25,28,30,0.1)] transition-all duration-300">
+<button class="absolute top-6 right-6 text-on-surface-variant/40 hover:text-error transition-colors p-2 active:scale-90">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<div>
+<div class="w-16 h-16 rounded-xl overflow-hidden mb-6 bg-surface-container-low flex items-center justify-center">
+<img alt="Company Logo" class="w-10 h-10 object-contain" data-alt="Bold futuristic tech logo featuring a stylized 'A' with sharp angles and metallic silver finish" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBVEGYj6pikpAr65l1ufqmNMi0V_rW9xSPwhAYXCb4FXiJnMpelKuiDvSF9pa6oBKPgotuIqXwHm9EHJodIAyr42phutD2JDSyZZImZmtAIq5w3XI5joYAUmkLzVINEL-yZKkYwu6IwL_isoZU1qwQdohMw8DvbzOpLBJt9Ez8WVbDk2r9Ggj4YIDMV4BXuoxwU7G66aJ35apV1i1ieqqpfxK5q7HopB7GapHLTcby9VvlmcmazuVDl2Kzxf321PJCJZm9FnTjMB98"/>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Frontend Architect</h3>
+<p class="text-on-surface-variant font-medium mb-4">Apex Labs</p>
+<div class="flex items-center text-on-surface-variant/70 text-sm mb-6">
+<span class="material-symbols-outlined text-base mr-1">location_on</span>
+<span>Berlin, DE</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Full-time</span>
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Equity</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-label font-bold text-sm tracking-tight hover:shadow-md hover:opacity-90 active:scale-95 transition-all" onclick="window.location.href='screen_2.html'">
+                        Move to Tracker
+                    </button>
+<button class="w-full py-3 bg-surface-container-high text-on-secondary-container rounded-full font-label font-bold text-sm tracking-tight hover:bg-surface-container-highest active:scale-95 transition-all" onclick="window.location.href='screen_5.html'">
+                        View Job Description
+                    </button>
+</div>
+</div>
+<!-- Job Card 4 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between shadow-[0px_24px_48px_rgba(25,28,30,0.06)] hover:scale-[1.02] hover:shadow-[0px_32px_64px_rgba(25,28,30,0.1)] transition-all duration-300">
+<button class="absolute top-6 right-6 text-on-surface-variant/40 hover:text-error transition-colors p-2 active:scale-90">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<div>
+<div class="w-16 h-16 rounded-xl overflow-hidden mb-6 bg-surface-container-low flex items-center justify-center">
+<img alt="Company Logo" class="w-10 h-10 object-contain" data-alt="Soft organic logo for an eco-conscious brand with leaf motifs and earthy tones like sage and charcoal" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABXM4MfsxQuoGR9AdukYtH2AOhG3KdETX4Lqz2Q7gfgACQdOUSGkDvsXRH0LdCC1F8V_Om7cOlFmwxaTtulX2m7epWnV7KqBotajschZ_69x5-r5unITaetyfKaRShVd1E_L1KQF_Ed4s8qYeCcDZGdlu5EbQ5_me6f6eUcgrWLD_zjmep5XYIkY7DHxISnY1RXol0Al_V5uhUYt6NcikiHL-wDV-zideeOq1_dnAGT-yG-N3z_umD80yp6JEPBz8PxQwwG3r7lLQ"/>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">UX Researcher</h3>
+<p class="text-on-surface-variant font-medium mb-4">EcoSphere</p>
+<div class="flex items-center text-on-surface-variant/70 text-sm mb-6">
+<span class="material-symbols-outlined text-base mr-1">location_on</span>
+<span>Amsterdam, NL</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Part-time</span>
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Remote</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-label font-bold text-sm tracking-tight hover:shadow-md hover:opacity-90 active:scale-95 transition-all" onclick="window.location.href='screen_2.html'">
+                        Move to Tracker
+                    </button>
+<button class="w-full py-3 bg-surface-container-high text-on-secondary-container rounded-full font-label font-bold text-sm tracking-tight hover:bg-surface-container-highest active:scale-95 transition-all" onclick="window.location.href='screen_5.html'">
+                        View Job Description
+                    </button>
+</div>
+</div>
+<!-- Job Card 5 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between shadow-[0px_24px_48px_rgba(25,28,30,0.06)] hover:scale-[1.02] hover:shadow-[0px_32px_64px_rgba(25,28,30,0.1)] transition-all duration-300 md:translate-y-12">
+<button class="absolute top-6 right-6 text-on-surface-variant/40 hover:text-error transition-colors p-2 active:scale-90">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<div>
+<div class="w-16 h-16 rounded-xl overflow-hidden mb-6 bg-surface-container-low flex items-center justify-center">
+<img alt="Company Logo" class="w-10 h-10 object-contain" data-alt="Playful but clean startup logo using vibrant gradients of purple and orange in a circular bubble shape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlBhtyx3mxpHdLb-6Iwx13ue9aryzAFVlRQMha8XTQif7HwGE1NO817nFRW12fJw2oHGiJg7fXhT4emYcUWNYCRVUp9oL52SyoIde8bY81efYs9rei26eTWYFCOhriaoiwSNduRIPMlmQvw7ro2I5pwAl5CjDlZT3XC7EOUWfonv44fGioeyIpiT5fkUcE-BD3csxDRS_Q6GSouHpd8IsJk95M79UfHRkGpo25m5oz_gKETaR8MBV05atZywkxur5tQNQ7b5zYcSo"/>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Marketing Strategist</h3>
+<p class="text-on-surface-variant font-medium mb-4">Spark Digital</p>
+<div class="flex items-center text-on-surface-variant/70 text-sm mb-6">
+<span class="material-symbols-outlined text-base mr-1">location_on</span>
+<span>New York, NY</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Senior</span>
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">$140k+</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-label font-bold text-sm tracking-tight hover:shadow-md hover:opacity-90 active:scale-95 transition-all" onclick="window.location.href='screen_2.html'">
+                        Move to Tracker
+                    </button>
+<button class="w-full py-3 bg-surface-container-high text-on-secondary-container rounded-full font-label font-bold text-sm tracking-tight hover:bg-surface-container-highest active:scale-95 transition-all" onclick="window.location.href='screen_5.html'">
+                        View Job Description
+                    </button>
+</div>
+</div>
+<!-- Job Card 6 -->
+<div class="group relative bg-surface-container-lowest rounded-xl p-8 flex flex-col justify-between shadow-[0px_24px_48px_rgba(25,28,30,0.06)] hover:scale-[1.02] hover:shadow-[0px_32px_64px_rgba(25,28,30,0.1)] transition-all duration-300">
+<button class="absolute top-6 right-6 text-on-surface-variant/40 hover:text-error transition-colors p-2 active:scale-90">
+<span class="material-symbols-outlined">delete</span>
+</button>
+<div>
+<div class="w-16 h-16 rounded-xl overflow-hidden mb-6 bg-surface-container-low flex items-center justify-center">
+<img alt="Company Logo" class="w-10 h-10 object-contain" data-alt="Strong professional engineering firm logo with bold sans-serif text and integrated gear icon in navy blue" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYerCtQiWjhKhpeI8DXCf7ZqTLDjXcN4AlTQfmMzeptXGWLCQoETaYlCtXoB7zslRBN1IcX_PPQ8cbw0HZuX1uM8qeUG-B0vCb6KmwlQG5clPI-ch13Wp2a9t65Ifih4Qeo7XwqUOhBC7JiLSuAbfEXdzQ-2bErcIw3IFtxw-EoN0yDBJi3F3ZwFJgAKicqGVRlEDDp_P53klgZj2h4iH1JCLlWFHdjdwriXI6TUgZMguoBnpHqsqeMlI2vUzt47Dgymynw8X21x4"/>
+</div>
+<h3 class="text-xl font-headline font-bold text-on-surface mb-1 group-hover:text-primary transition-colors">Full Stack Developer</h3>
+<p class="text-on-surface-variant font-medium mb-4">Ironwood Eng.</p>
+<div class="flex items-center text-on-surface-variant/70 text-sm mb-6">
+<span class="material-symbols-outlined text-base mr-1">location_on</span>
+<span>Austin, TX</span>
+</div>
+<div class="flex flex-wrap gap-2 mb-8">
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">Node.js</span>
+<span class="px-3 py-1 bg-secondary-container/50 text-on-secondary-container rounded-full text-[10px] font-bold tracking-widest uppercase">AWS</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full py-3 bg-gradient-to-br from-primary to-primary-container text-white rounded-full font-label font-bold text-sm tracking-tight hover:shadow-md hover:opacity-90 active:scale-95 transition-all" onclick="window.location.href='screen_2.html'">
+                        Move to Tracker
+                    </button>
+<button class="w-full py-3 bg-surface-container-high text-on-secondary-container rounded-full font-label font-bold text-sm tracking-tight hover:bg-surface-container-highest active:scale-95 transition-all" onclick="window.location.href='screen_5.html'">
+                        View Job Description
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 py-4 md:hidden bg-white/90 dark:bg-slate-950/90 backdrop-blur-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)] border-t border-slate-100 dark:border-slate-800 rounded-t-3xl">
+<a class="text-slate-400 dark:text-slate-600 p-3 hover:scale-110 transition-transform flex flex-col items-center" href="screen_15.html">
+<span class="material-symbols-outlined">work</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest mt-1">Jobs</span>
+</a>
+<a class="bg-sky-100 dark:bg-sky-900/40 text-sky-900 dark:text-sky-100 rounded-2xl p-3 hover:scale-110 transition-transform flex flex-col items-center" href="screen_6.html">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bookmark</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest mt-1">Saved</span>
+</a>
+<a class="text-slate-400 dark:text-slate-600 p-3 hover:scale-110 transition-transform flex flex-col items-center" href="screen_2.html">
+<span class="material-symbols-outlined">query_stats</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest mt-1">Tracker</span>
+</a>
+<a class="text-slate-400 dark:text-slate-600 p-3 hover:scale-110 transition-transform flex flex-col items-center" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

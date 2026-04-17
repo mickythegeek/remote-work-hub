@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Job Details | Senior Product Curator &amp; UI Architect</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#ffb781",
+                    "on-primary-container": "#91c5ff",
+                    "surface-container-low": "#f3f3f7",
+                    "surface-dim": "#d9dadd",
+                    "surface-variant": "#e2e2e6",
+                    "secondary-container": "#cde2fd",
+                    "on-surface-variant": "#41474f",
+                    "inverse-surface": "#2e3133",
+                    "inverse-primary": "#9ccaff",
+                    "tertiary-fixed": "#ffdcc4",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed-variant": "#00497b",
+                    "on-error": "#ffffff",
+                    "on-secondary-container": "#51647b",
+                    "on-error-container": "#93000a",
+                    "outline": "#727780",
+                    "surface-container-high": "#e7e8eb",
+                    "on-tertiary-fixed-variant": "#6f3800",
+                    "tertiary": "#5a2c00",
+                    "surface-bright": "#f9f9fd",
+                    "tertiary-container": "#7c3f00",
+                    "surface-container": "#edeef1",
+                    "on-tertiary-fixed": "#2f1400",
+                    "surface": "#f9f9fd",
+                    "on-secondary-fixed": "#061d31",
+                    "background": "#f9f9fd",
+                    "on-tertiary-container": "#ffb073",
+                    "on-primary": "#ffffff",
+                    "surface-tint": "#206298",
+                    "on-background": "#191c1e",
+                    "surface-container-highest": "#e2e2e6",
+                    "on-surface": "#191c1e",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed": "#001d35",
+                    "secondary-fixed": "#d0e4ff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#d0e4ff",
+                    "on-secondary-fixed-variant": "#35485e",
+                    "outline-variant": "#c1c7d1",
+                    "secondary-fixed-dim": "#b4c8e3",
+                    "primary": "#003a63",
+                    "secondary": "#4c6077",
+                    "primary-container": "#005288",
+                    "primary-fixed-dim": "#9ccaff",
+                    "on-tertiary": "#ffffff",
+                    "inverse-on-surface": "#f0f0f4",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f9f9fd; }
+        h1, h2, h3 { font-family: 'Manrope', sans-serif; }
+    </style>
+</head>
+<body class="text-on-surface">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm">
+<div class="flex justify-between items-center px-10 py-5 max-w-[1440px] mx-auto">
+<div class="text-2xl font-extrabold tracking-tighter text-sky-950 dark:text-sky-50">
+                The Digital Curator
+            </div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="font-['Manrope'] font-bold tracking-tight text-lg text-sky-900 dark:text-sky-400 border-b-2 border-sky-900 dark:border-sky-400 pb-1" href="{{DATA:SCREEN:SCREEN_15}}">Jobs</a>
+<a class="font-['Manrope'] font-bold tracking-tight text-lg text-slate-500 dark:text-slate-400 hover:text-sky-800 dark:hover:text-sky-200 transition-colors" href="{{DATA:SCREEN:SCREEN_6}}">Saved</a>
+<a class="font-['Manrope'] font-bold tracking-tight text-lg text-slate-500 dark:text-slate-400 hover:text-sky-800 dark:hover:text-sky-200 transition-colors" href="{{DATA:SCREEN:SCREEN_2}}">Tracker</a>
+</div>
+<div class="flex items-center">
+<button class="p-2 hover:bg-slate-50 dark:hover:bg-slate-800/50 rounded-lg transition-all active:scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-600" data-icon="account_circle">account_circle</span>
+</button>
+</div>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-28 pb-20 px-6 max-w-6xl mx-auto">
+<!-- Back Navigation -->
+<div class="mb-12">
+<button class="group flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors" onclick="window.location.href='{{DATA:SCREEN:SCREEN_15}}'">
+<span class="material-symbols-outlined text-xl" data-icon="arrow_back">arrow_back</span>
+<span class="font-medium">Back to job board</span>
+</button>
+</div>
+<!-- Header Section: Asymmetric Editorial Layout -->
+<header class="relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-start mb-16">
+<div class="lg:col-span-8">
+<div class="mb-6 inline-flex items-center px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-xs font-bold uppercase tracking-wider">
+                    Full-time
+                </div>
+<h1 class="text-display-sm lg:text-[3.5rem] leading-tight font-extrabold tracking-tight text-primary mb-6">
+                    Senior Product Curator &amp; UI Architect
+                </h1>
+<div class="flex flex-wrap gap-y-4 gap-x-10 text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="corporate_fare">corporate_fare</span>
+<span class="text-lg font-semibold text-on-surface">Lumina Systems</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+<span class="text-lg">Remote</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="text-lg font-medium text-primary">$140k - $180k</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="schedule">schedule</span>
+<span class="text-lg">Posted 2 days ago</span>
+</div>
+</div>
+</div>
+<!-- Action Sidebar (Floating-style Card) -->
+<div class="lg:col-span-4 space-y-4 sticky top-32">
+<div class="p-8 bg-surface-container-lowest rounded-xl shadow-[0px_24px_48px_rgba(25,28,30,0.06)] border border-outline-variant/15">
+<button class="w-full mb-4 py-4 px-6 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full font-bold text-lg hover:shadow-lg transition-all active:scale-95" onclick="window.location.href='{{DATA:SCREEN:SCREEN_2}}'">
+                        Apply Now
+                    </button>
+<div class="grid grid-cols-2 gap-3">
+<button class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-high text-on-secondary-container rounded-full font-semibold hover:bg-surface-container-highest transition-colors" onclick="window.location.href='{{DATA:SCREEN:SCREEN_6}}'">
+<span class="material-symbols-outlined text-xl" data-icon="bookmark">bookmark</span>
+                            Save Job
+                        </button>
+<button class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-high text-on-secondary-container rounded-full font-semibold hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="share">share</span>
+                            Share
+                        </button>
+</div>
+<div class="mt-8 pt-6 border-t border-outline-variant/10 text-center">
+<p class="text-sm text-on-surface-variant mb-4">Are you a good fit for Lumina?</p>
+<div class="flex justify-center -space-x-3">
+<img class="w-10 h-10 rounded-full border-2 border-surface-container-lowest" data-alt="professional portrait of a diverse software engineer with neutral background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2N09h93d0thL3BhatRhIB3FQ6F5aFVaMoPIDpL5By9QLbg718CLfr8kw4f-qEYTWdE6Rz9d0of2FzgC2Dvwk_6ucZxwDyNxmq4coIhlQ_ah8CKg9tSPCEdLf1SQSWoZjWnOae_M1uhrawpxeynBRRBePGNFnUn0_nHkA3wxVUfq_ME1hmSCpD_P0d8Y6HCdYThP7x7WT1Q_VKctWQpTRHnFv37PuoVT6UQjaoFN19qloTTPyDkwJAtI5hKmTxtsH1P2yRFJcGx8s"/>
+<img class="w-10 h-10 rounded-full border-2 border-surface-container-lowest" data-alt="close-up portrait of a woman in a creative studio setting with soft natural light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBgdEiijOIg5DKYb86eeMBTyzLutBV4LQFKPPLq4RT6XXvExv4Q0GSE_Hz2TyJU-0s7w_qqTUACNOcIJBinJnpRfyDE-4fUQ5L78iWg7aSuEAb01jHMiWu8f-soIDNXNd7NFOLLoVknglFTIdOtooHi3tt6dMfZUn1BJzh02AwMc7FKAWUJTq_hfvHNFAFaFYAUfa9kP0N0_pUgNsr_uYmtI5GYALboOiE4tU1qeJDlpzE5FRDFPY4h8moId6jvGHK5m_NdWXvGNe4"/>
+<img class="w-10 h-10 rounded-full border-2 border-surface-container-lowest" data-alt="modern professional man in minimalist office environment smiling at camera" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAGDLK9MC0SRZB65wPa-_LjKjXdSHi9C8qQaUPDm4BR9LIrapYOGqF80Nl0qIfr2OQUeUqb0nGA9gECb_oZ4D8saWYeKGFe2Tyg3-OVywqssQ-zbU9I1CXmWeLQUTuHs5J-MOaeUwRfYYcH1ul6HgEMEOOIPAdU34WX5_HgLq8X7gpFJQZb0HIouzgK5eOe2guF5H8PHl8dDuq2klG034nMOZ_-5uojuXpWaZT57YF2zyqmn-Ph-8K_N_pNmlf6ryIvPLPJU4bzfw"/>
+<div class="w-10 h-10 rounded-full border-2 border-surface-container-lowest bg-primary-container flex items-center justify-center text-[10px] text-on-primary font-bold">
+                                +12
+                            </div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Bento Content Section -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-20">
+<!-- Role Overview: The Information Anchor -->
+<div class="lg:col-span-8 bg-surface-container-lowest p-10 rounded-xl border border-outline-variant/15">
+<h2 class="text-2xl font-bold mb-8 text-primary flex items-center gap-3">
+<span class="w-1.5 h-8 bg-primary rounded-full"></span>
+                    Role Overview
+                </h2>
+<div class="space-y-6 text-on-surface-variant leading-relaxed text-lg">
+<p>
+                        At Lumina Systems, we aren't just building tools; we are crafting the future of digital organization. As our Senior Product Curator &amp; UI Architect, you will sit at the intersection of aesthetic vision and functional precision. You won't just design interfaces; you will define the logic of how users interact with complex data sets.
+                    </p>
+<p>
+                        The ideal candidate possesses an editorial eye—someone who understands that the best UI is often about what you choose to leave out. You will lead the design systems team to ensure every interaction feels intentional, spacious, and authoritative.
+                    </p>
+<div class="aspect-video w-full rounded-xl overflow-hidden mt-10">
+<img class="w-full h-full object-cover" data-alt="minimalist modern office interior with large windows, designer furniture, and lush green plants at golden hour" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnjfDxC4GBeIlrGHZH8351otisEh3sXXfAW7iTv2cpfXIwTk0ZPsybpX42MlXeSoZsSYjU2r4NfOH5ip4gQiz54nMTFateBsdLOMaky5EfBsA1n_Z908uVELa2wL_oGLlvH52pM3IRr9aFMdm1ch6zqGhqL_6xaNEr16Hvn3IwYn4vq0BBa_NFHlPOZzcbfULq6yUuCl8vkgydixIZ_8QMdQueDH2Zcspro8cbCRkxISIlB9Sb1B8hDFoC4PbpmyPzQbiNFc9OsLg"/>
+</div>
+</div>
+</div>
+<!-- Core Competencies: Glassmorphism Style -->
+<div class="lg:col-span-4 flex flex-col gap-8">
+<div class="p-8 bg-surface-container-low/50 backdrop-blur-xl rounded-xl border border-outline-variant/15">
+<h3 class="text-xl font-bold mb-6 flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="architecture">architecture</span>
+                        Core Competencies
+                    </h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="token">token</span>
+<span class="text-on-surface font-medium">Advanced Design Systems Architecture</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="data_object">data_object</span>
+<span class="text-on-surface font-medium">Information Hierarchy &amp; Curation</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="brush">brush</span>
+<span class="text-on-surface font-medium">Visual Editorial Design</span>
+</li>
+<li class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary mt-1" data-icon="code">code</span>
+<span class="text-on-surface font-medium">Tailwind CSS &amp; Logic Mapping</span>
+</li>
+</ul>
+</div>
+<!-- Why Join Us?: Card Stacking -->
+<div class="p-8 bg-primary text-on-primary rounded-xl overflow-hidden relative">
+<div class="absolute -right-10 -bottom-10 opacity-10">
+<span class="material-symbols-outlined text-[12rem]" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<h3 class="text-xl font-bold mb-6">Why Join Us?</h3>
+<ul class="space-y-6 relative z-10">
+<li class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="public">public</span>
+</div>
+<div>
+<p class="font-bold">Work from Anywhere</p>
+<p class="text-white/70 text-xs">Global remote freedom</p>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="spa">spa</span>
+</div>
+<div>
+<p class="font-bold">Wellness Stipend</p>
+<p class="text-white/70 text-xs">$2k annual allowance</p>
+</div>
+</li>
+<li class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+<span class="material-symbols-outlined text-white" data-icon="laptop_mac">laptop_mac</span>
+</div>
+<div>
+<p class="font-bold">Latest Equipment</p>
+<p class="text-white/70 text-xs">Top-tier tech setup</p>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- Company Section -->
+<section class="bg-surface-container-high/30 p-10 rounded-3xl border border-outline-variant/10">
+<div class="flex flex-col md:flex-row items-center gap-10">
+<div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center shadow-md shrink-0">
+<span class="material-symbols-outlined text-5xl text-primary" data-icon="diamond" data-weight="fill" style="font-variation-settings: 'FILL' 1;">diamond</span>
+</div>
+<div>
+<h3 class="text-2xl font-bold mb-2">About Lumina Systems</h3>
+<p class="text-on-surface-variant max-w-2xl text-lg">
+                        We are a venture-backed startup focused on creating high-performance tools for information workers. Our mission is to reduce digital fatigue through superior user experience and AI-driven content curation.
+                    </p>
+</div>
+<div class="ml-auto">
+<button class="px-8 py-3 bg-surface-container-highest text-on-surface font-bold rounded-full hover:bg-surface-dim transition-colors">
+                        View Company Profile
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-6 py-4 md:hidden bg-white/90 dark:bg-slate-950/90 backdrop-blur-2xl shadow-[0_-8px_24px_rgba(0,0,0,0.04)] rounded-t-3xl border-t border-slate-100 dark:border-slate-800">
+<a class="flex flex-col items-center gap-1 p-3 bg-sky-100 dark:bg-sky-900/40 text-sky-900 dark:text-sky-100 rounded-2xl transition-transform hover:scale-110" href="{{DATA:SCREEN:SCREEN_15}}">
+<span class="material-symbols-outlined" data-icon="work" data-weight="fill" style="font-variation-settings: 'FILL' 1;">work</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Jobs</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-3 text-slate-400 dark:text-slate-600 transition-transform hover:scale-110" href="{{DATA:SCREEN:SCREEN_6}}">
+<span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Saved</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-3 text-slate-400 dark:text-slate-600 transition-transform hover:scale-110" href="{{DATA:SCREEN:SCREEN_2}}">
+<span class="material-symbols-outlined" data-icon="query_stats">query_stats</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Tracker</span>
+</a>
+<a class="flex flex-col items-center gap-1 p-3 text-slate-400 dark:text-slate-600 transition-transform hover:scale-110" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-widest">Profile</span>
+</a>
+</nav>
+</body></html>
