@@ -110,7 +110,7 @@ export default function AuthPage() {
             Google
           </button>
           <button className="social-btn">
-            <svg width="16" height="16" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.2-162.6-98.2-240.4-190.5-278.8C555.8 43.2 505.2 32 456 32 317.6 32 203.8 105.5 149.9 212H150C90.5 212 32 269.5 32 340.9c0 72.8 58.9 131.8 131.5 131.8h4.5c-12.1 34-18.9 70.2-18.9 107.9 0 168.7 108.2 296.4 262.7 349C460 956.8 524 968 591 968c66 0 123.3-11 162-26C893 909.7 982 784.9 982 628c0-161.3-89.4-274.1-193.9-287.1zm-363.9 546c-118 0-213.4-86.9-213.4-193.9 0-2.4.1-4.7.2-7h.2c-4.6-10.4-7.2-21.9-7.2-34 0-46.8 38-84.8 84.8-84.8 5.5 0 10.9.5 16.1 1.5 52.6 29 107.5 45.5 165.4 45.5 57.8 0 112.8-16.5 165.4-45.5 5.2-1 10.6-1.5 16.1-1.5 46.8 0 84.8 38 84.8 84.8 0 12.1-2.5 23.5-7 33.9h.1c.1 2.4.2 4.7.2 7.1C724.6 799.1 629.2 886 511.2 886z"/></svg>
+            <svg width="16" height="16" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.2-162.6-98.2-240.4-190.5-278.8C555.8 43.2 505.2 32 456 32 317.6 32 203.8 105.5 149.9 212H150C90.5 212 32 269.5 32 340.9c0 72.8 58.9 131.8 131.5 131.8h4.5c-12.1 34-18.9 70.2-18.9 107.9 0 168.7 108.2 296.4 262.7 349C460 956.8 524 968 591 968c66 0 123.3-11 162-26C893 909.7 982 784.9 982 628c0-161.3-89.4-274.1-193.9-287.1zm-363.9 546c-118 0-213.4-86.9-213.4-193.9 0-2.4.1-4.7.2-7h.2c-4.6-10.4-7.2-21.9-7.2-34 0-46.8 38-84.8 84.8-84.8 5.5 0 10.9.5 16.1 1.5 52.6 29 107.5 45.5 165.4 45.5 57.8 0 112.8-16.5 165.4-45.5 5.2-1 10.6-1.5 16.1-1.5 46.8 0 84.8 38 84.8 84.8 0 12.1-2.5 23.5-7 33.9h.1c.1 2.4.2 4.7.2 7.1C724.6 799.1 629.2 886 511.2 886z" /></svg>
             Apple
           </button>
         </div>
@@ -126,7 +126,7 @@ export default function AuthPage() {
 
       {/* Footer */}
       <footer style={{ marginTop: 'auto', padding: '32px var(--space-lg)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)', marginTop: 64 }}>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>© 2024 REMOTE WORK HUB. THE CURATED AUTHORITY.</span>
+        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>© 2024 REMOTE WORK HUB. BUILT BY G3MS .</span>
         <div style={{ display: 'flex', gap: 24 }}>
           {['PRIVACY', 'TERMS', 'SUPPORT'].map(l => (
             <a key={l} href="#" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{l}</a>
