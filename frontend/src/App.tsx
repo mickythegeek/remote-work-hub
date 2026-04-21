@@ -14,15 +14,48 @@ function NavBar() {
 
   return (
     <header className="navbar">
-      <Link to="/" className="navbar__brand">Remote Work Hub</Link>
+      <Link to="/" className="text-red-500">Remote Work Hub</Link>
 
       <nav className="navbar__nav">
-        <Link to="/" className={`navbar__link ${isActive('/') ? 'navbar__link--active' : ''}`}>Jobs</Link>
-        <Link to="/saved" className={`navbar__link ${isActive('/saved') ? 'navbar__link--active' : ''}`}>
-          Saved {savedJobs.length > 0 && <span style={{ marginLeft: 2, background: 'var(--navy)', color: 'white', borderRadius: 'var(--radius-full)', fontSize: '0.65rem', padding: '1px 6px' }}>{savedJobs.length}</span>}
-        </Link>
-        <Link to="/tracker" className={`navbar__link ${isActive('/tracker') ? 'navbar__link--active' : ''}`}>Tracker</Link>
-      </nav>
+  <Link
+    to="/"
+    className={`navbar__link ${isActive('/') ? 'navbar__link--active' : ''}`}
+  >
+    Jobs
+  </Link>
+
+  {authToken && (
+    <>
+      <Link
+        to="/saved"
+        className={`navbar__link ${isActive('/saved') ? 'navbar__link--active' : ''}`}
+      >
+        Saved
+        {savedJobs.length > 0 && (
+          <span
+            style={{
+              marginLeft: 2,
+              background: 'var(--navy)',
+              color: 'white',
+              borderRadius: 'var(--radius-full)',
+              fontSize: '0.65rem',
+              padding: '1px 6px'
+            }}
+          >
+            {savedJobs.length}
+          </span>
+        )}
+      </Link>
+
+      <Link
+        to="/tracker"
+        className={`navbar__link ${isActive('/tracker') ? 'navbar__link--active' : ''}`}
+      >
+        Tracker
+      </Link>
+    </>
+  )}
+</nav>
 
       <div>
         {authToken ? (
@@ -42,7 +75,7 @@ function NavBar() {
 function AppRoutes() {
   return (
     <BrowserRouter>
-      <NavBar />
+      <HideNavOnAuth />
       <Routes>
         <Route path="/" element={<JobBoardPage />} />
         <Route path="/saved" element={<SavedJobsPage />} />
@@ -52,6 +85,12 @@ function AppRoutes() {
       </Routes>
     </BrowserRouter>
   );
+}
+
+function HideNavOnAuth() {
+  const location = useLocation();
+  if (location.pathname === '/auth') return null;
+  return <NavBar />;
 }
 
 export default function App() {

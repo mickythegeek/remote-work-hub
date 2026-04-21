@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { apiPost } from '../lib/api';
 
@@ -12,6 +12,7 @@ export default function AuthPage() {
   const [feedback, setFeedback] = useState<{ type: 'error' | 'success'; msg: string } | null>(null);
   const { setAuthToken } = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,7 +26,14 @@ export default function AuthPage() {
       } else {
         setAuthToken(data.data.token);
         setFeedback({ type: 'success', msg: 'Success! Redirecting...' });
-        setTimeout(() => navigate('/'), 1000);
+
+        const state = location.state as undefined | { redirectTo?: string; job?: unknown };
+        const redirectTo = state?.redirectTo || '/';
+        const job = state?.job;
+
+        setTimeout(() => {
+          navigate(redirectTo, job ? { state: { job } } : undefined);
+        }, 1000);
       }
     } catch {
       setFeedback({ type: 'error', msg: 'Network error. Is the API server running?' });
@@ -125,7 +133,7 @@ export default function AuthPage() {
       </p>
 
       {/* Footer */}
-      <footer style={{ marginTop: 'auto', padding: '32px var(--space-lg)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)', marginTop: 64 }}>
+      <footer style={{ marginTop: 'auto', padding: '32px var(--space-lg)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)' }}>
         <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>© 2024 REMOTE WORK HUB. BUILT BY G3MS .</span>
         <div style={{ display: 'flex', gap: 24 }}>
           {['PRIVACY', 'TERMS', 'SUPPORT'].map(l => (

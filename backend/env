@@ -1,0 +1,3 @@
+DATABASE_URL="postgresql://remoteworkhub_user:nS0DdSFiDdfanl1u3dRe6ILGNIAkg02a@dpg-d7h90p8sfn5c73ea4ac0-a.frankfurt-postgres.render.com/remoteworkhub"
+PORT=3333
+JWT_SECRET="changeme_in_production"
