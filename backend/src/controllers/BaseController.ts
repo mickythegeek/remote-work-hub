@@ -19,7 +19,10 @@ export class BaseController {
     return res.status(statusCode).json({
       success: false,
       message,
-      error: process.env.NODE_ENV === 'development' ? error?.message : undefined,
+      error:
+        process.env.NODE_ENV === 'development'
+          ? (typeof error?.message === 'string' ? error.message : error)
+          : undefined,
     });
   }
 }

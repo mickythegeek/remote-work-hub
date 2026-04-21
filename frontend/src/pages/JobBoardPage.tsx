@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Search, ChevronDown, Bookmark, ArrowRight } from 'lucide-react';
 import { apiGet } from '../lib/api';
 import { useApp, Job } from '../context/AppContext';
@@ -13,8 +13,9 @@ export default function JobBoardPage() {
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('All Categories');
   const [featuredJob, setFeaturedJob] = useState<Job | null>(null);
-  const { saveJob, removeSavedJob, isJobSaved } = useApp();
+  const { saveJob, removeSavedJob, isJobSaved, authToken } = useApp();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     apiGet('/jobs?limit=30')
@@ -35,27 +36,28 @@ export default function JobBoardPage() {
 
   const secondary = filtered.slice(1, 10);
 
+  const goToDetails = (job: Job) => {
+    const to = `/jobs/${job.id}`;
+    if (!authToken) {
+      navigate('/auth', { state: { redirectTo: to, job, from: location.pathname } });
+      return;
+    }
+    navigate(to, { state: { job } });
+  };
+
   return (
     <div>
       {/* Hero Section */}
       <section style={{ background: 'var(--bg-base)', padding: '56px var(--space-lg) 48px' }}>
-        <div style={{ maxWidth: 'var(--container-width)', margin: '0 auto' }}>
-          <span className="chip chip--navy" style={{ marginBottom: 20, display: 'inline-block' }}>ELITE NETWORK</span>
-          <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(2.5rem, 5vw, 3.5rem)',
-            lineHeight: 1.1,
-            color: 'var(--text-primary)',
-            maxWidth: 600,
-            marginBottom: 36,
-          }}>
-            Curating the world's most{' '}
-            <em style={{ color: 'var(--accent-blue)', fontStyle: 'italic' }}>elite</em>{' '}
+        <div className='space-y-5' style={{ maxWidth: 'var(--container-width)', margin: '0 auto', background: "var(--navy)", padding: '20px', borderRadius: 'var(--radius-md)'}}>
+          {/* <span className="chip chip--navy" style={{ marginBottom: 20, display: 'inline-block' }}>ELITE NETWORK</span> */}
+          <h1 className="font-manrope  text-6xl font-bold text-white">
+            Curating the world's most elite
             remote opportunities.
           </h1>
 
           {/* Search bar */}
-          <div style={{ display: 'flex', gap: 0, background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', overflow: 'hidden', maxWidth: 820, boxShadow: 'var(--shadow-card)' }}>
+          <div style={{ display: 'flex', gap: 0, background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', overflow: 'hidden', maxWidth: 820, boxShadow: 'var(--shadow-card)', marginTop: "40px"}}>
             <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 16px', gap: 12 }}>
               <Search size={18} color="var(--text-muted)" />
               <input
@@ -77,7 +79,7 @@ export default function JobBoardPage() {
                 {CATEGORIES.map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
-            <button className="btn btn--primary" style={{ borderRadius: 0, padding: '0 28px' }}>Search Jobs</button>
+            <button className="btn btn--secondary" style={{ borderRadius: 0, padding: '0 28px' }}>Search Jobs</button>
           </div>
         </div>
       </section>
@@ -108,7 +110,7 @@ export default function JobBoardPage() {
                     job={featuredJob}
                     isSaved={isJobSaved(featuredJob.id)}
                     onSave={() => isJobSaved(featuredJob.id) ? removeSavedJob(featuredJob.id) : saveJob(featuredJob)}
-                    onClick={() => navigate(`/jobs/${featuredJob.id}`, { state: { job: featuredJob } })}
+                    onClick={() => goToDetails(featuredJob)}
                   />
                 )}
 
@@ -118,9 +120,7 @@ export default function JobBoardPage() {
                     <CompactCard
                       key={job.id}
                       job={job}
-                      isSaved={isJobSaved(job.id)}
-                      onSave={() => isJobSaved(job.id) ? removeSavedJob(job.id) : saveJob(job)}
-                      onClick={() => navigate(`/jobs/${job.id}`, { state: { job } })}
+                      onClick={() => goToDetails(job)}
                     />
                   ))}
                 </div>
@@ -181,23 +181,23 @@ function FeaturedCard({ job, isSaved, onSave, onClick }: { job: Job; isSaved: bo
   );
 }
 
-function CompactCard({ job, isSaved, onSave, onClick }: { job: Job; isSaved: boolean; onSave: () => void; onClick: () => void }) {
+function CompactCard({ job, onClick }: { job: Job; onClick: () => void }) {
   return (
     <div className="card" style={{ padding: 20, cursor: 'pointer' }} onClick={onClick}>
       <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 12 }}>
         <div style={{ width: 36, height: 36, background: 'var(--bg-base)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>🏢</div>
         <div>
-          <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '0.95rem', lineHeight: 1.3 }}>{job.title}</h4>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem' }}>{job.company_name}</p>
+          <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '14px', lineHeight: 1.3, fontWeight: 600, }}>{job.title}</h4>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600, }}>{job.company_name}</p>
         </div>
       </div>
-      <span className="chip" style={{ marginBottom: 10, display: 'inline-block' }}>{job.category || 'ENGINEERING'}</span>
+      <span className="chip ">{job.category || 'ENGINEERING'}</span>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        {job.salary ? <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-primary)' }}>{job.salary}</span> : <span />}
+        {job.salary ? <span style={{ fontSize: '12px', fontWeight: 600, color: 'var(--text-primary)' }}>{job.salary}</span> : <span />}
         <button
           onClick={e => { e.stopPropagation(); onClick(); }}
-          className="btn btn--secondary btn--sm"
-          style={{ fontSize: '0.75rem' }}
+          className="btn btn--primary btn--sm"
+          style={{ fontSize: '12px' }}
         >
           View Details
         </button>

@@ -1,23 +1,28 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap');
 
+@import "tailwindcss";
+
+/* ======================= Design Tokens ======================= */
+/* Keep these while we migrate to Tailwind utilities. */
 :root {
   /* === RWH Design System === */
 
   /* Backgrounds */
-  --bg-base: #F0F2F5;
+  --bg-base: #F8F9FA;
   /* Light grey page background */
-  --bg-surface: #FFFFFF;
+  --bg-surface: #F8F9FA;
   /* White card surfaces */
-  --bg-nav: #FFFFFF;
+  --bg-nav: #F8F9FA;
   /* White navbar */
 
   /* Brand Colors */
-  --navy: #0D2247;
+  --navy: #2c6fa6;
   /* Deep navy — CTAs, headings, active nav */
-  --navy-light: #1A3A6B;
+  --navy-light: #1A3C5E;
   /* Hover state */
   --accent-blue: #1B4FD8;
   /* Italic "elite" accent, links */
+  --accent-gray: #64748B;
 
   /* Text */
   --text-primary: #0D1117;
@@ -34,14 +39,15 @@
   /* Tags / Chips */
   --chip-bg: #E5E7EB;
   --chip-text: #374151;
+  --chip-tag: #27AE60;
 
   /* Borders */
   --border-subtle: #E5E7EB;
   --border-strong: #D1D5DB;
 
   /* Typography */
-  --font-display: 'DM Serif Display', serif;
-  --font-body: 'Inter', sans-serif;
+  --font-display: "manrope", sans-serif;
+  --font-body: 'inter', sans-serif;
 
   /* Spacing */
   --space-xs: 4px;
@@ -64,6 +70,8 @@
   --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
   --shadow-nav: 0 1px 0 var(--border-subtle);
 }
+
+
 
 /* ======================= Reset ======================= */
 *,
@@ -141,7 +149,7 @@ h3 {
 .navbar__link {
   font-size: 0.9rem;
   font-weight: 500;
-  color: var(--text-secondary);
+  color: var(--accent-gray);
   padding-bottom: 2px;
   border-bottom: 2px solid transparent;
   transition: color 0.15s, border-color 0.15s;
@@ -186,8 +194,8 @@ h3 {
 }
 
 .btn--secondary {
-  background: var(--bg-base);
-  color: var(--text-secondary);
+  background: var(--navy-light);
+  color: var(--text-on-navy);
   border: 1px solid var(--border-strong);
 }
 
@@ -222,14 +230,15 @@ h3 {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 12px;
+  font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   padding: 3px 10px;
+  margin-bottom: 10px;
   border-radius: var(--radius-full);
   background: var(--chip-bg);
-  color: var(--chip-text);
+  color: var(--navy-light);
 }
 
 .chip--navy {

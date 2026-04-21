@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { ArrowLeft, Building2, MapPin, DollarSign, Clock, Bookmark, Share2, Globe, Gift, Monitor, Pencil, Code2, LayoutDashboard } from 'lucide-react';
 import { useApp, Job } from '../context/AppContext';
@@ -25,10 +26,18 @@ function extractCompetencies(description: string): string[] {
 export default function JobDetailsPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { saveJob, removeSavedJob, isJobSaved } = useApp();
+  const { saveJob, removeSavedJob, isJobSaved, authToken } = useApp();
 
   // Job is passed via router state from the Job Board
   const job: Job | undefined = location.state?.job;
+
+  // Protect job details behind auth. If someone pastes the URL, send them to auth.
+  useEffect(() => {
+    if (authToken) return;
+    navigate('/auth', { replace: true, state: { redirectTo: location.pathname, job } });
+  }, [authToken, navigate, location.pathname, job]);
+
+  if (!authToken) return null;
 
   // Graceful fallback if user lands directly on the URL without state
   if (!job) {
