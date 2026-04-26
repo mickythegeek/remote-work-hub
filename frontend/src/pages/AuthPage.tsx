@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { Mail, Lock, Eye, EyeOff, User } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { apiPost } from '../lib/api';
 
@@ -8,6 +9,7 @@ export default function AuthPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'error' | 'success'; msg: string } | null>(null);
   const { setAuthToken } = useApp();
@@ -26,11 +28,9 @@ export default function AuthPage() {
       } else {
         setAuthToken(data.data.token);
         setFeedback({ type: 'success', msg: 'Success! Redirecting...' });
-
         const state = location.state as undefined | { redirectTo?: string; job?: unknown };
         const redirectTo = state?.redirectTo || '/';
         const job = state?.job;
-
         setTimeout(() => {
           navigate(redirectTo, job ? { state: { job } } : undefined);
         }, 1000);
@@ -43,104 +43,180 @@ export default function AuthPage() {
   };
 
   return (
-    <div style={{ minHeight: 'calc(100vh - 60px)', background: 'var(--bg-base)', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 48 }}>
-      {/* Brand heading */}
-      <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--navy)', marginBottom: 32 }}>
-        Remote Work Hub
-      </h1>
-
-      {/* Tab toggle */}
-      <div style={{ display: 'flex', background: 'var(--bg-base)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-lg)', padding: 4, marginBottom: 24, gap: 4 }}>
-        {(['login', 'register'] as const).map(m => (
-          <button
-            key={m}
-            onClick={() => { setMode(m); setFeedback(null); }}
-            style={{
-              padding: '10px 28px',
-              borderRadius: 'var(--radius-md)',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              background: mode === m ? 'var(--navy)' : 'transparent',
-              color: mode === m ? 'white' : 'var(--text-secondary)',
-              transition: 'all 0.2s',
-            }}
-          >
-            {m === 'login' ? 'Log In' : 'Sign Up'}
-          </button>
-        ))}
+    <div style={{
+      minHeight: 'calc(100vh - 60px)',
+      background: 'var(--bg-base)',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '48px 16px',
+    }}>
+      {/* Brand */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: 32 }}>
+        <div style={{
+          width: 56, height: 56,
+          background: 'var(--navy)',
+          borderRadius: 16,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          marginBottom: 16,
+          boxShadow: '0 4px 14px rgba(44, 111, 166, 0.35)',
+        }}>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="7" width="18" height="13" rx="2" stroke="white" strokeWidth="1.8" />
+            <path d="M8 7V5a4 4 0 0 1 8 0v2" stroke="white" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+        </div>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>
+          The Digital Curator
+        </h1>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+          Elevate your remote professional journey
+        </p>
       </div>
 
       {/* Card */}
-      <div className="card" style={{ width: '100%', maxWidth: 420, padding: 40 }}>
-        <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', marginBottom: 8, color: 'var(--text-primary)' }}>
-          {mode === 'login' ? 'Welcome Back' : 'Create Account'}
-        </h2>
-        <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: 28 }}>
-          {mode === 'login'
-            ? "Access the world's most curated remote opportunities."
-            : "Join the hub and start tracking your next career move."}
-        </p>
+      <div className="card" style={{ width: '100%', maxWidth: 480, overflow: 'hidden' }}>
 
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-          {mode === 'register' && (
+        {/* Tab Toggle */}
+        <div style={{ display: 'flex', borderBottom: '1px solid var(--border-subtle)' }}>
+          {(['login', 'register'] as const).map(m => (
+            <button
+              key={m}
+              onClick={() => { setMode(m); setFeedback(null); }}
+              style={{
+                flex: 1,
+                padding: '18px 0',
+                fontFamily: 'var(--font-body)',
+                fontWeight: 600,
+                fontSize: '0.95rem',
+                color: mode === m ? 'var(--navy)' : 'var(--text-muted)',
+                borderBottom: mode === m ? '2px solid var(--navy)' : '2px solid transparent',
+                marginBottom: -1,
+                transition: 'all 0.2s',
+                background: 'transparent',
+                justifyContent: 'center',
+                display: 'flex'
+              }}
+            >
+              {m === 'login' ? 'Log In' : 'Sign Up'}
+            </button>
+          ))}
+        </div>
+
+        {/* Form */}
+        <div style={{ padding: '36px 40px' }}>
+          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+
+            {mode === 'register' && (
+              <div className="form-group">
+                <label className="form-label">Full Name</label>
+                <div style={{ position: 'relative' }}>
+                  <User size={16} color="var(--text-muted)" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                  <input
+                    className="form-input"
+                    type="text"
+                    required
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    placeholder="Jane Doe"
+                    style={{ paddingLeft: 40 }}
+                  />
+                </div>
+              </div>
+            )}
+
             <div className="form-group">
-              <label className="form-label">Full Name</label>
-              <input className="form-input" type="text" required value={name} onChange={e => setName(e.target.value)} placeholder="Jane Doe" />
+              <label className="form-label">Email Address</label>
+              <div style={{ position: 'relative' }}>
+                <Mail size={16} color="var(--text-muted)" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                <input
+                  className="form-input"
+                  type="email"
+                  required
+                  value={email}
+                  onChange={e => setEmail(e.target.value)}
+                  placeholder="name@company.com"
+                  style={{ paddingLeft: 40 }}
+                />
+              </div>
             </div>
-          )}
-          <div className="form-group">
-            <label className="form-label">Email Address</label>
-            <input className="form-input" type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="curator@hub.com" />
-          </div>
-          <div className="form-group">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <label className="form-label">Password</label>
-              {mode === 'login' && <a href="#" style={{ fontSize: '0.8rem', color: 'var(--accent-blue)', fontWeight: 500 }}>Forgot password?</a>}
+
+            <div className="form-group">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <label className="form-label">Password</label>
+                {mode === 'login' && (
+                  <a href="#" style={{ fontSize: '0.8rem', color: 'var(--accent-blue)', fontWeight: 600 }}>
+                    Forgot password?
+                  </a>
+                )}
+              </div>
+              <div style={{ position: 'relative' }}>
+                <Lock size={16} color="var(--text-muted)" style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                <input
+                  className="form-input"
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={password}
+                  onChange={e => setPassword(e.target.value)}
+                  placeholder="••••••••"
+                  style={{ paddingLeft: 40, paddingRight: 44 }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(p => !p)}
+                  style={{ position: 'absolute', right: 14, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }}
+                >
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                </button>
+              </div>
             </div>
-            <input className="form-input" type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="••••••••••" />
-          </div>
 
-          {feedback && (
-            <div className={`feedback feedback--${feedback.type}`}>{feedback.msg}</div>
-          )}
+            {feedback && (
+              <div className={`feedback feedback--${feedback.type}`}>{feedback.msg}</div>
+            )}
 
-          <button type="submit" className="btn btn--primary btn--full" disabled={loading}>
-            {loading ? 'Processing...' : mode === 'login' ? 'Continue to Workspace' : 'Create Account'}
-          </button>
-        </form>
-
-        <div className="divider" style={{ margin: '24px 0' }}>OR CONTINUE WITH</div>
-
-        <div style={{ display: 'flex', gap: 12 }}>
-          <button className="social-btn">
-            <img src="https://www.google.com/favicon.ico" width={16} height={16} alt="Google" />
-            Google
-          </button>
-          <button className="social-btn">
-            <svg width="16" height="16" viewBox="0 0 814 1000" fill="currentColor"><path d="M788.1 340.9c-5.2-162.6-98.2-240.4-190.5-278.8C555.8 43.2 505.2 32 456 32 317.6 32 203.8 105.5 149.9 212H150C90.5 212 32 269.5 32 340.9c0 72.8 58.9 131.8 131.5 131.8h4.5c-12.1 34-18.9 70.2-18.9 107.9 0 168.7 108.2 296.4 262.7 349C460 956.8 524 968 591 968c66 0 123.3-11 162-26C893 909.7 982 784.9 982 628c0-161.3-89.4-274.1-193.9-287.1zm-363.9 546c-118 0-213.4-86.9-213.4-193.9 0-2.4.1-4.7.2-7h.2c-4.6-10.4-7.2-21.9-7.2-34 0-46.8 38-84.8 84.8-84.8 5.5 0 10.9.5 16.1 1.5 52.6 29 107.5 45.5 165.4 45.5 57.8 0 112.8-16.5 165.4-45.5 5.2-1 10.6-1.5 16.1-1.5 46.8 0 84.8 38 84.8 84.8 0 12.1-2.5 23.5-7 33.9h.1c.1 2.4.2 4.7.2 7.1C724.6 799.1 629.2 886 511.2 886z" /></svg>
-            Apple
-          </button>
+            <button
+              type="submit"
+              className="btn btn--primary btn--full"
+              disabled={loading}
+              style={{ marginTop: 4, padding: '15px 24px', fontSize: '1rem' }}
+            >
+              {loading
+                ? 'Processing...'
+                : mode === 'login'
+                  ? 'Log In to Your Workspace'
+                  : 'Create Account'}
+            </button>
+          </form>
         </div>
       </div>
 
+      {/* Bottom link */}
       <p style={{ marginTop: 24, fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
         {mode === 'login' ? (
-          <>New to the hub? <Link to="/auth" onClick={() => setMode('register')} style={{ color: 'var(--accent-blue)', fontWeight: 600 }}>Create an account</Link></>
+          <>
+            New to the platform?{' '}
+            <button
+              onClick={() => { setMode('register'); setFeedback(null); }}
+              style={{ color: 'var(--accent-blue)', fontWeight: 600, fontSize: '0.875rem' }}
+            >
+              Explore featured opportunities
+            </button>{' '}
+            before joining.
+          </>
         ) : (
-          <>Already have an account? <Link to="/auth" onClick={() => setMode('login')} style={{ color: 'var(--accent-blue)', fontWeight: 600 }}>Log in</Link></>
+          <>
+            Already have an account?{' '}
+            <button
+              onClick={() => { setMode('login'); setFeedback(null); }}
+              style={{ color: 'var(--accent-blue)', fontWeight: 600, fontSize: '0.875rem' }}
+            >
+              Log in
+            </button>
+          </>
         )}
       </p>
-
-      {/* Footer */}
-      <footer style={{ marginTop: 'auto', padding: '32px var(--space-lg)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)' }}>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>© 2024 REMOTE WORK HUB. BUILT BY G3MS .</span>
-        <div style={{ display: 'flex', gap: 24 }}>
-          {['PRIVACY', 'TERMS', 'SUPPORT'].map(l => (
-            <a key={l} href="#" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{l}</a>
-          ))}
-        </div>
-      </footer>
     </div>
   );
 }

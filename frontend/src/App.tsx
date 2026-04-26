@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation, Navigate } from 'react-router-dom';
 import { User } from 'lucide-react';
 import { AppProvider, useApp } from './context/AppContext';
 import AuthPage from './pages/AuthPage';
@@ -6,6 +6,9 @@ import JobBoardPage from './pages/JobBoardPage';
 import SavedJobsPage from './pages/SavedJobsPage';
 import TrackerPage from './pages/TrackerPage';
 import JobDetailsPage from './pages/JobDetailsPage';
+import DashboardPage from './pages/DashboardPage';
+import ActivityPage from './pages/ActivityPage';
+
 
 function NavBar() {
   const { authToken, setAuthToken, savedJobs } = useApp();
@@ -14,52 +17,29 @@ function NavBar() {
 
   return (
     <header className="navbar">
-      <Link to="/" className="text-red-500">Remote Work Hub</Link>
+      <Link to="/" className="navbar__brand">The Digital Curator</Link>
 
       <nav className="navbar__nav">
-  <Link
-    to="/"
-    className={`navbar__link ${isActive('/') ? 'navbar__link--active' : ''}`}
-  >
-    Jobs
-  </Link>
-
-  {authToken && (
-    <>
-      <Link
-        to="/saved"
-        className={`navbar__link ${isActive('/saved') ? 'navbar__link--active' : ''}`}
-      >
-        Saved
-        {savedJobs.length > 0 && (
-          <span
-            style={{
-              marginLeft: 2,
-              background: 'var(--navy)',
-              color: 'white',
-              borderRadius: 'var(--radius-full)',
-              fontSize: '0.65rem',
-              padding: '1px 6px'
-            }}
-          >
-            {savedJobs.length}
-          </span>
-        )}
-      </Link>
-
-      <Link
-        to="/tracker"
-        className={`navbar__link ${isActive('/tracker') ? 'navbar__link--active' : ''}`}
-      >
-        Tracker
-      </Link>
-    </>
-  )}
-</nav>
+        <Link to="/" className={`navbar__link ${isActive('/') ? 'navbar__link--active' : ''}`}>
+          Jobs
+        </Link>
+        <Link to="/saved" className={`navbar__link ${isActive('/saved') ? 'navbar__link--active' : ''}`}>
+          Saved
+          {savedJobs.length > 0 && (
+            <span className="navbar__badge">{savedJobs.length}</span>
+          )}
+        </Link>
+        <Link to="/tracker" className={`navbar__link ${isActive('/tracker') ? 'navbar__link--active' : ''}`}>
+          Tracker
+        </Link>
+      </nav>
 
       <div>
         {authToken ? (
-          <button onClick={() => setAuthToken(null)} style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500 }}>
+          <button
+            onClick={() => setAuthToken(null)}
+            className="navbar__sign-out"
+          >
             <User size={18} /> Sign Out
           </button>
         ) : (
@@ -78,10 +58,14 @@ function AppRoutes() {
       <HideNavOnAuth />
       <Routes>
         <Route path="/" element={<JobBoardPage />} />
+        <Route path="/jobs" element={<JobBoardPage />} />
+        <Route path="/jobs/:id" element={<JobDetailsPage />} />
         <Route path="/saved" element={<SavedJobsPage />} />
         <Route path="/tracker" element={<TrackerPage />} />
+        <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/jobs/:id" element={<JobDetailsPage />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/activity" element={<ActivityPage />} />
       </Routes>
     </BrowserRouter>
   );
@@ -90,6 +74,7 @@ function AppRoutes() {
 function HideNavOnAuth() {
   const location = useLocation();
   if (location.pathname === '/auth') return null;
+  if (location.pathname.startsWith('/jobs/')) return null;
   return <NavBar />;
 }
 

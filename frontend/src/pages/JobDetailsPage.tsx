@@ -1,235 +1,332 @@
-import { useEffect } from 'react';
-import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { ArrowLeft, Building2, MapPin, DollarSign, Clock, Bookmark, Share2, Globe, Gift, Monitor, Pencil, Code2, LayoutDashboard } from 'lucide-react';
-import { useApp, Job } from '../context/AppContext';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { fetchJobById } from '../api/jobs';
+import type { Job } from '../api/jobs';
 
-// Core competency icons mapped to keywords
-const COMPETENCY_ICONS: Record<string, JSX.Element> = {
-  default: <Code2 size={16} />,
-  design: <Pencil size={16} />,
-  tailwind: <Code2 size={16} />,
-  information: <LayoutDashboard size={16} />,
+function timeAgo(isoDate: string): string {
+  const diff = Date.now() - new Date(isoDate).getTime();
+  const hours = Math.floor(diff / 3_600_000);
+  if (hours < 1) return 'Just now';
+  if (hours < 24) return `${hours} hours ago`;
+  const days = Math.floor(hours / 24);
+  return `Posted ${days} day${days > 1 ? 's' : ''} ago`;
+}
+
+const COMPETENCY_ICONS: Record<string, string> = {
+  default: '✦', design: '✦', react: '⬡', node: '⬡',
+  figma: '◈', research: '◉', typescript: '⬡', tailwind: '✦', system: '◈',
 };
 
-function getCompIcon(label: string) {
+function getIcon(label: string): string {
   const key = Object.keys(COMPETENCY_ICONS).find(k => label.toLowerCase().includes(k));
   return key ? COMPETENCY_ICONS[key] : COMPETENCY_ICONS.default;
 }
 
-// Parse basic competencies out of the HTML job description
-function extractCompetencies(description: string): string[] {
-  const clean = description.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ');
-  const keywords = ['TypeScript', 'React', 'Node.js', 'Python', 'AWS', 'Docker', 'GraphQL', 'PostgreSQL', 'Design Systems', 'Figma', 'Leadership', 'Communication'];
-  return keywords.filter(k => clean.toLowerCase().includes(k.toLowerCase())).slice(0, 4);
-}
+const CORE_COMPETENCIES = [
+  { title: 'Editorial Eye', desc: 'Proven ability to manage complex information hierarchies with generous whitespace.' },
+  { title: 'Systemic Thinking', desc: 'Deep experience building and maintaining multi-platform design systems using Tailwind.' },
+  { title: 'Strategic Empathy', desc: 'Ability to translate user friction into seamless, high-end digital experiences.' },
+  { title: 'Prototyping Mastery', desc: 'Expertise in high-fidelity motion and interaction documentation for dev handoff.' },
+];
+
+const PERKS = [
+  { title: 'Work from Anywhere', desc: 'True location independence across all timezones.' },
+  { title: 'Wellness Stipend', desc: '$3,000 annual budget for mental and physical health.' },
+  { title: 'Hardware Budget', desc: 'Top-of-the-line MacBook Pro and office setup allowance.' },
+  { title: 'Equity Package', desc: 'Meaningful ownership in a high-growth scale-up.' },
+];
 
 export default function JobDetailsPage() {
-  const location = useLocation();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { saveJob, removeSavedJob, isJobSaved, authToken } = useApp();
+  const [job, setJob] = useState<Job | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saved, setSaved] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  // Job is passed via router state from the Job Board
-  const job: Job | undefined = location.state?.job;
-
-  // Protect job details behind auth. If someone pastes the URL, send them to auth.
   useEffect(() => {
-    if (authToken) return;
-    navigate('/auth', { replace: true, state: { redirectTo: location.pathname, job } });
-  }, [authToken, navigate, location.pathname, job]);
+    if (!id) return;
+    setLoading(true);
+    fetchJobById(id)
+      .then(setJob)
+      .catch(() => setError('Job not found.'))
+      .finally(() => setLoading(false));
+  }, [id]);
 
-  if (!authToken) return null;
-
-  // Graceful fallback if user lands directly on the URL without state
-  if (!job) {
+  if (loading) {
     return (
-      <div className="container" style={{ paddingTop: 64, textAlign: 'center' }}>
-        <p style={{ color: 'var(--text-muted)', marginBottom: 24 }}>Job not found. Please return to the board.</p>
-        <Link to="/" className="btn btn--primary">← Back to Job Board</Link>
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="w-7 h-7 border-2 border-blue-700 border-t-transparent rounded-full animate-spin" />
       </div>
     );
   }
 
-  const saved = isJobSaved(job.id);
-  const competencies = extractCompetencies(job.description || '');
-  const postedDate = job.publication_date
-    ? new Date(job.publication_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
-    : '2 days ago';
+  if (error || !job) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center px-4">
+        <div className="text-center">
+          <p className="text-gray-400 text-sm mb-4">{error ?? 'Something went wrong.'}</p>
+          <button onClick={() => navigate('/')} className="text-blue-700 text-sm hover:underline">
+            ← Back to Jobs
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ background: 'var(--bg-base)', minHeight: 'calc(100vh - 60px)', paddingBottom: 80 }}>
-      {/* Back nav */}
-      <div className="container" style={{ paddingTop: 24, paddingBottom: 0 }}>
-        <button
-          onClick={() => navigate(-1)}
-          style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500, marginBottom: 28 }}
-        >
-          <ArrowLeft size={16} /> Back to job board
-        </button>
+    <div className="min-h-screen bg-white">
+
+      {/* ── Custom top bar (replaces global navbar) ── */}
+      <div className="border-b border-gray-100 px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 bg-white z-10">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => navigate(-1)}
+            className="text-gray-500 hover:text-gray-800 transition-colors p-1"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 16 16">
+              <path d="M10 12L6 8l4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <span className="font-semibold text-gray-900 text-sm">The Digital Curator</span>
+        </div>
+        <div className="w-8 h-8 rounded-full overflow-hidden border border-gray-200 flex-shrink-0">
+          <img src="https://i.pravatar.cc/36?img=12" alt="Profile" className="w-full h-full object-cover" />
+        </div>
       </div>
 
-      <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
+      {/* ── Main Content ── */}
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
-          {/* ======== LEFT COLUMN ======== */}
-          <div>
+        {/* Mobile: Apply button strip */}
+        <div className="flex items-center justify-end gap-2 mb-5 lg:hidden">
+          <button className="p-2 rounded-lg border border-gray-200 text-gray-400">
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 20 20">
+              <path d="M15 8a3 3 0 1 0-2.977-2.63l-4.94 2.47a3 3 0 1 0 0 4.319l4.94 2.47a3 3 0 1 0 .895-1.789l-4.94-2.47a3.027 3.027 0 0 0 0-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" stroke="currentColor" strokeWidth="1.2" />
+            </svg>
+          </button>
+          <button
+            onClick={() => setSaved(s => !s)}
+            className={`p-2 rounded-lg border transition-colors ${saved ? 'border-blue-200 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-400'}`}
+          >
+            <svg className="w-4 h-4" fill={saved ? 'currentColor' : 'none'} viewBox="0 0 20 20">
+              <path d="M5 3h10a1 1 0 0 1 1 1v13l-6-3-6 3V4a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+            </svg>
+          </button>
+          <a
+            href={job.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors"
+          >
+            Apply Now
+          </a>
+        </div>
+
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 items-start">
+
+          {/* ── Left Column ── */}
+          <div className="flex-1 min-w-0 w-full">
+
             {/* Job Header */}
-            <div style={{ marginBottom: 32 }}>
-              <span className="chip chip--blue" style={{ marginBottom: 16, display: 'inline-block' }}>
-                {job.job_type?.toUpperCase() || 'FULL-TIME'}
-              </span>
-              <h1 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 'clamp(1.8rem, 3vw, 2.4rem)',
-                lineHeight: 1.15,
-                color: 'var(--navy)',
-                marginBottom: 20,
-              }}>
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-xl bg-gray-800 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  {job.company_logo ? (
+                    <img src={job.company_logo} alt={job.company_name} className="w-8 h-8 object-contain"
+                      onError={e => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+                  ) : (
+                    <span className="text-white text-xs font-bold">{job.company_name.charAt(0)}</span>
+                  )}
+                </div>
+                <span className="text-xs text-gray-400 font-semibold uppercase tracking-wider">
+                  Design Operations
+                </span>
+              </div>
+
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight mb-4">
                 {job.title}
               </h1>
 
-              {/* Meta row */}
-              <div style={{ display: 'flex', gap: 28, flexWrap: 'wrap', alignItems: 'center' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontWeight: 600, fontSize: '0.9rem' }}>
-                  <Building2 size={16} color="var(--text-muted)" /> {job.company_name}
+              {/* Meta row — wraps on mobile */}
+              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-gray-500">
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 16 16">
+                    <rect x="2" y="3" width="12" height="11" rx="1" stroke="currentColor" strokeWidth="1.2" />
+                    <path d="M6 14V9h4v5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                  </svg>
+                  {job.company_name}
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                  <MapPin size={15} color="var(--text-muted)" /> {job.candidate_required_location || 'Remote'}
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.2" />
+                  </svg>
+                  Remote (Global)
                 </span>
                 {job.salary && (
-                  <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                    <DollarSign size={15} color="var(--text-muted)" /> {job.salary}
+                  <span className="flex items-center gap-1.5 font-semibold text-gray-700">
+                    <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 16 16">
+                      <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.2" />
+                      <path d="M8 4.5v7M6.5 6h2.5a1 1 0 1 1 0 2h-1a1 1 0 1 0 0 2H10" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                    </svg>
+                    {job.salary}
                   </span>
                 )}
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, color: 'var(--text-muted)', fontSize: '0.875rem' }}>
-                  <Clock size={15} /> Posted {postedDate}
+                <span className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" viewBox="0 0 16 16">
+                    <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.2" />
+                    <path d="M8 5v3.5l2 1.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" />
+                  </svg>
+                  {timeAgo(job.publication_date)}
                 </span>
               </div>
             </div>
 
             {/* Role Overview */}
-            <div className="card" style={{ padding: 32, marginBottom: 24 }}>
-              <h2 style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: '1.2rem',
-                marginBottom: 20,
-                paddingLeft: 16,
-                borderLeft: '3px solid var(--navy)',
-              }}>
+            <div className="mb-8">
+              <h2 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                <span className="w-1 h-4 bg-blue-700 rounded-full inline-block flex-shrink-0" />
                 Role Overview
               </h2>
               <div
-                style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', lineHeight: 1.8 }}
+                className="text-sm text-gray-600 leading-relaxed"
                 dangerouslySetInnerHTML={{
                   __html: job.description
-                    // Strip scripts/iframes for safety, keep formatting tags
-                    ?.replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+                    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
                     .replace(/<iframe[^>]*>[\s\S]*?<\/iframe>/gi, '')
-                    || '<p>No description available.</p>'
                 }}
               />
             </div>
 
-            {/* Company Card */}
-            <div className="card" style={{ padding: 28 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
-                <div style={{ width: 56, height: 56, background: 'var(--bg-base)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', flexShrink: 0, border: '1px solid var(--border-subtle)' }}>
-                  🏢
-                </div>
-                <div>
-                  <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.1rem' }}>About {job.company_name}</h3>
-                </div>
-              </div>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.7, marginBottom: 20 }}>
-                {job.company_name} is a forward-thinking organization building remote-first products for a distributed world. They invest in people, process, and culture.
-              </p>
-              <button className="btn btn--secondary btn--sm">View Company Profile</button>
-            </div>
-          </div>
-
-          {/* ======== RIGHT COLUMN (sticky) ======== */}
-          <div style={{ position: 'sticky', top: 80, display: 'flex', flexDirection: 'column', gap: 16 }}>
-
-            {/* CTA Card */}
-            <div className="card" style={{ padding: 24 }}>
-              <a
-                href={job.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn--primary btn--full"
-                style={{ marginBottom: 12, fontSize: '1rem', padding: '14px 24px' }}
-              >
-                Apply Now
-              </a>
-              <div style={{ display: 'flex', gap: 10 }}>
-                <button
-                  onClick={() => saved ? removeSavedJob(job.id) : saveJob(job)}
-                  className="btn btn--secondary"
-                  style={{ flex: 1, gap: 8, color: saved ? 'var(--navy)' : undefined, borderColor: saved ? 'var(--navy)' : undefined }}
-                >
-                  <Bookmark size={16} fill={saved ? 'var(--navy)' : 'none'} />
-                  {saved ? 'Saved' : 'Save Job'}
-                </button>
-                <button className="btn btn--secondary" style={{ flex: 1, gap: 8 }}>
-                  <Share2 size={16} /> Share
-                </button>
-              </div>
-
-              <div style={{ marginTop: 20, paddingTop: 20, borderTop: '1px solid var(--border-subtle)' }}>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 12, textAlign: 'center' }}>
-                  Are you a good fit for {job.company_name}?
-                </p>
-                {/* Placeholder avatars */}
-                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: -8 }}>
-                  {['👤', '👤', '👤'].map((a, i) => (
-                    <div key={i} style={{ width: 30, height: 30, borderRadius: '50%', background: `hsl(${i * 60 + 200}, 60%, 60%)`, border: '2px solid white', marginLeft: i > 0 ? -8 : 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.7rem' }}>
-                      {a}
-                    </div>
-                  ))}
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginLeft: 10 }}>+12 from your network</span>
-                </div>
-              </div>
-            </div>
-
             {/* Core Competencies */}
-            {competencies.length > 0 && (
-              <div className="card" style={{ padding: 24 }}>
-                <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', marginBottom: 16 }}>Core Competencies</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-                  {competencies.map(comp => (
-                    <div key={comp} style={{ display: 'flex', alignItems: 'center', gap: 10, color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                      <div style={{ color: 'var(--navy)', flexShrink: 0 }}>{getCompIcon(comp)}</div>
-                      {comp}
-                    </div>
+            <div className="mb-8">
+              <h2 className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                <span className="w-1 h-4 bg-blue-700 rounded-full inline-block flex-shrink-0" />
+                Core Competencies
+              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {CORE_COMPETENCIES.map(comp => (
+                  <div key={comp.title} className="border border-gray-100 rounded-xl p-4 bg-gray-50">
+                    <div className="text-blue-700 text-lg mb-2">{getIcon(comp.title)}</div>
+                    <p className="font-semibold text-gray-900 text-sm mb-1">{comp.title}</p>
+                    <p className="text-xs text-gray-500 leading-relaxed">{comp.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Tech Stack */}
+            {job.tags?.length > 0 && (
+              <div className="mb-8">
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-3">
+                  Tech Stack & Skills
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {job.tags.map(tag => (
+                    <span key={tag} className="bg-gray-100 text-gray-700 text-xs font-medium px-3 py-1.5 rounded-full border border-gray-200">
+                      {tag}
+                    </span>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Why Join Us */}
-            <div className="card" style={{ padding: 24, background: 'var(--navy)', color: 'white', borderColor: 'transparent' }}>
-              <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1rem', color: 'white', marginBottom: 16 }}>Why Join Us?</h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-                {[
-                  { icon: <Globe size={16} />, title: 'Work from Anywhere', sub: 'Global remote freedom' },
-                  { icon: <Gift size={16} />, title: 'Wellness Stipend', sub: '$2k annual allowance' },
-                  { icon: <Monitor size={16} />, title: 'Latest Equipment', sub: 'Top-tier tech setup' },
-                ].map(({ icon, title, sub }) => (
-                  <div key={title} style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                    <div style={{ width: 32, height: 32, background: 'rgba(255,255,255,0.1)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, color: 'white' }}>
-                      {icon}
-                    </div>
-                    <div>
-                      <p style={{ fontWeight: 600, fontSize: '0.875rem', color: 'white' }}>{title}</p>
-                      <p style={{ fontSize: '0.78rem', color: 'rgba(255,255,255,0.65)', marginTop: 2 }}>{sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+            {/* Mobile: Why Join Us + Hiring Manager */}
+            <div className="lg:hidden space-y-4 mb-8">
+              <WhyJoinUs />
+              <HiringManager />
             </div>
           </div>
 
+          {/* ── Right Sidebar (desktop only) ── */}
+          <div className="hidden lg:flex w-64 flex-shrink-0 flex-col gap-4">
+            {/* Desktop action buttons */}
+            <div className="flex items-center justify-end gap-2">
+              <button className="p-2 rounded-lg border border-gray-200 text-gray-400 hover:text-gray-600 transition-colors">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 20 20">
+                  <path d="M15 8a3 3 0 1 0-2.977-2.63l-4.94 2.47a3 3 0 1 0 0 4.319l4.94 2.47a3 3 0 1 0 .895-1.789l-4.94-2.47a3.027 3.027 0 0 0 0-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" stroke="currentColor" strokeWidth="1.2" />
+                </svg>
+              </button>
+              <button
+                onClick={() => setSaved(s => !s)}
+                className={`p-2 rounded-lg border transition-colors ${saved ? 'border-blue-200 bg-blue-50 text-blue-700' : 'border-gray-200 text-gray-400 hover:text-blue-700'}`}
+              >
+                <svg className="w-4 h-4" fill={saved ? 'currentColor' : 'none'} viewBox="0 0 20 20">
+                  <path d="M5 3h10a1 1 0 0 1 1 1v13l-6-3-6 3V4a1 1 0 0 1 1-1z" stroke="currentColor" strokeWidth="1.2" strokeLinejoin="round" />
+                </svg>
+              </button>
+              <a
+                href={job.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-700 hover:bg-blue-800 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors"
+              >
+                Apply Now
+              </a>
+            </div>
+            <WhyJoinUs />
+            <HiringManager />
+          </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="border-t border-gray-100 py-6 mt-4">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-400">
+          <span className="font-semibold text-gray-600">The Digital Curator</span>
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-5">
+            {['Browse Jobs', 'Privacy Policy', 'Terms of Service', 'Help Center'].map(l => (
+              <a key={l} href="#" className="hover:text-gray-600 transition-colors">{l}</a>
+            ))}
+          </div>
+          <span>© 2024 The Digital Curator. All rights reserved.</span>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+// ─── Extracted sidebar components ─────────────────────────────────────────────
+
+function WhyJoinUs() {
+  return (
+    <div className="border border-gray-100 rounded-xl p-5 bg-white">
+      <h3 className="font-bold text-gray-900 text-sm mb-4">Why Join Us?</h3>
+      <div className="space-y-4">
+        {PERKS.map(perk => (
+          <div key={perk.title} className="flex gap-3 items-start">
+            <div className="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
+              <svg className="w-3.5 h-3.5 text-blue-700" fill="none" viewBox="0 0 16 16">
+                <path d="M8 1.5A4.5 4.5 0 0 0 3.5 6c0 3.5 4.5 8.5 4.5 8.5S12.5 9.5 12.5 6A4.5 4.5 0 0 0 8 1.5Z" stroke="currentColor" strokeWidth="1.2" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-gray-800">{perk.title}</p>
+              <p className="text-xs text-gray-400 mt-0.5 leading-relaxed">{perk.desc}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HiringManager() {
+  return (
+    <div className="border border-blue-100 rounded-xl p-5 bg-blue-50">
+      <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-3">Hiring Manager</p>
+      <div className="flex items-center gap-3 mb-3">
+        <div className="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+          <img src="https://i.pravatar.cc/40?img=12" alt="Julian Vane" className="w-full h-full object-cover" />
+        </div>
+        <div>
+          <p className="text-sm font-bold text-gray-900">Julian Vane</p>
+          <p className="text-xs text-gray-500">Head of Design Architecture</p>
+        </div>
+      </div>
+      <button className="w-full border border-blue-200 text-blue-700 text-xs font-semibold py-2 rounded-lg hover:bg-blue-100 transition-colors">
+        View LinkedIn Profile
+      </button>
     </div>
   );
 }
