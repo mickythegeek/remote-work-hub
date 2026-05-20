@@ -140,3 +140,4 @@ vite.config.ts.timestamp-*
 PRD.md
 TechSpec.md
 frontend/ui/*
+issues/
