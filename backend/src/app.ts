@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import * as Sentry from '@sentry/node';
 import authRoutes from './routes/authRoutes';
 import jobRoutes from './routes/jobRoutes';
+import bookmarkRoutes from './routes/bookmarkRoutes';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -19,16 +20,21 @@ app.get('/api', (req: Request, res: Response) => {
 // Mounted Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
+app.use('/api/bookmarks', bookmarkRoutes);
 
 // Sentry hook to capture unhandled errors
 Sentry.setupExpressErrorHandler(app);
 
 // Global fallback error handler
 app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).json({
+  console.error("🔥 FULL ERROR STACK:");
+  console.error(err); // IMPORTANT
+  console.error(err?.stack); // EVEN BETTER
+
+  return res.status(500).json({
     success: false,
-    message: 'Unhandled Server Error',
-    error: process.env.NODE_ENV === 'development' ? err.message : undefined,
+    message: err.message || "Unhandled Server Error",
+    stack: process.env.NODE_ENV === "development" ? err.stack : undefined,
   });
 });
 

@@ -1,5 +1,5 @@
 // Centralized API client - single source of truth for base URL
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'http://localhost:3333/api';
 
 function getAuthHeaders(): Record<string, string> {
   const token = localStorage.getItem('auth_token');
@@ -17,6 +17,14 @@ export async function apiPost(path: string, body: unknown) {
 
 export async function apiGet(path: string) {
   const res = await fetch(`${API_BASE}${path}`, {
+    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+  });
+  return res.json();
+}
+
+export async function apiDelete(path: string) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'DELETE',
     headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
   });
   return res.json();
