@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  passwordHash String
+  name         String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  
+  bookmarks    Bookmark[]
+  applications Application[]
+}
+
+model Bookmark {
+  id          String   @id @default(uuid())
+  jobId       String   // The external ID from the Remotive API
+  jobTitle    String
+  companyName String
+  createdAt   DateTime @default(now())
+
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Prevent users from bookmarking the exact same job twice
+  @@unique([userId, jobId])
+}
+
+model Application {
+  id          String            @id @default(uuid())
+  jobId       String
+  jobTitle    String
+  companyName String
+  
+  status      ApplicationStatus @default(APPLIED) 
+  notes       String?
+  
+  appliedAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  userId      String
+  user        User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  // Typically applied once per job per user
+  @@unique([userId, jobId])
+}
+
+enum ApplicationStatus {
+  APPLIED
+  INTERVIEW
+  OFFER
+  REJECTED
+}
