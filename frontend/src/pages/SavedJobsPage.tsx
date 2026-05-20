@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Trash2, ArrowRight, MapPin } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
@@ -5,6 +6,18 @@ import { useApp } from '../context/AppContext';
 export default function SavedJobsPage() {
   const { savedJobs, removeSavedJob } = useApp();
   const navigate = useNavigate();
+  const [removing, setRemoving] = useState<number | null>(null);
+
+  const handleRemove = async (id: number) => {
+    setRemoving(id);
+    try {
+      await removeSavedJob(id);
+    } catch (error) {
+      console.error('Failed to remove job:', error);
+    } finally {
+      setRemoving(null);
+    }
+  };
 
   return (
     <div className="container" style={{ paddingTop: 48, paddingBottom: 64 }}>
@@ -35,7 +48,11 @@ export default function SavedJobsPage() {
               {/* Card Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                 <div style={{ width: 44, height: 44, background: 'var(--bg-base)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.2rem' }}>🏢</div>
-                <button onClick={() => removeSavedJob(job.id)} style={{ color: 'var(--text-muted)' }}>
+                <button 
+                  onClick={() => handleRemove(job.id)} 
+                  style={{ color: 'var(--text-muted)', opacity: removing === job.id ? 0.5 : 1 }}
+                  disabled={removing === job.id}
+                >
                   <Trash2 size={17} />
                 </button>
               </div>

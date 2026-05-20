@@ -21,3 +21,11 @@ export async function apiGet(path: string) {
   });
   return res.json();
 }
+
+export async function apiDelete(path: string) {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
+  });
+  return res.json();
+}

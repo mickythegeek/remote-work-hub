@@ -95,9 +95,12 @@ export default function JobBoardPage() {
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem' }}>Latest Openings</h2>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: 4 }}>Hand-picked roles from top-tier organizations.</p>
               </div>
-              <span style={{ color: 'var(--accent-blue)', fontSize: '0.875rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+              <button
+                onClick={() => navigate('/jobs-all', { state: { search, category } })}
+                style={{ color: 'var(--accent-blue)', fontSize: '0.875rem', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
+              >
                 View all {filtered.length} jobs <ArrowRight size={14} />
-              </span>
+              </button>
             </div>
 
             {loading ? (
@@ -153,10 +156,44 @@ function FeaturedCard({ job, isSaved, onSave, onClick }: { job: Job; isSaved: bo
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1 }} onClick={onClick}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
-            <div style={{ width: 48, height: 48, background: 'var(--bg-base)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.4rem' }}>💼</div>
+<div
+  style={{
+    width: 36,
+    height: 36,
+    background: "var(--bg-base)",
+    borderRadius: 6,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+    overflow: "hidden",
+  }}
+>
+  <img
+    src={job.company_logo}
+    alt="company logo"
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+    }}
+  />
+</div>
             <div>
               <span className="chip chip--blue">{job.category || 'ENGINEERING'}</span>
-              <span style={{ marginLeft: 10, fontSize: '0.8rem', color: 'var(--text-muted)' }}>2 hours ago</span>
+              <span
+  style={{
+    marginLeft: 10,
+    fontSize: "0.8rem",
+    color: "var(--text-muted)",
+  }}
+>
+  {new Date(job.publication_date).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  })}
+</span>
             </div>
           </div>
           <h3 style={{ fontFamily: 'var(--font-display)', fontSize: '1.3rem', marginBottom: 4 }}>{job.title}</h3>
@@ -169,9 +206,9 @@ function FeaturedCard({ job, isSaved, onSave, onClick }: { job: Job; isSaved: bo
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.6 }}>
             {job.description?.replace(/<[^>]*>/g, '').substring(0, 120)}...
           </p>
-        </div>
+        </div> 
         <button onClick={e => { e.stopPropagation(); onSave(); }} style={{ marginLeft: 20, color: isSaved ? 'var(--navy)' : 'var(--text-muted)' }}>
-          <Bookmark size={20} fill={isSaved ? 'var(--navy)' : 'none'} />
+          <Bookmark size={20} fill={isSaved ? 'var(--navy)' : 'none'} style={{ cursor: 'pointer' }} />
         </button>
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 16 }}>
@@ -185,7 +222,29 @@ function CompactCard({ job, onClick }: { job: Job; onClick: () => void }) {
   return (
     <div className="card" style={{ padding: 20, cursor: 'pointer' }} onClick={onClick}>
       <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start', marginBottom: 12 }}>
-        <div style={{ width: 36, height: 36, background: 'var(--bg-base)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1rem', flexShrink: 0 }}>🏢</div>
+<div
+  style={{
+    width: 36,
+    height: 36,
+    background: "var(--bg-base)",
+    borderRadius: 6,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexShrink: 0,
+    overflow: "hidden",
+  }}
+>
+  <img
+    src={job.company_logo}
+    alt="company logo"
+    style={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+    }}
+  />
+</div>
         <div>
           <h4 style={{ fontFamily: 'var(--font-display)', fontSize: '14px', lineHeight: 1.3, fontWeight: 600, }}>{job.title}</h4>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.8rem', fontWeight: 600, }}>{job.company_name}</p>

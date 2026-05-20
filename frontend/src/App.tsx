@@ -3,6 +3,7 @@ import { User } from 'lucide-react';
 import { AppProvider, useApp } from './context/AppContext';
 import AuthPage from './pages/AuthPage';
 import JobBoardPage from './pages/JobBoardPage';
+import AllJobsPage from './pages/AllJobsPage';
 import SavedJobsPage from './pages/SavedJobsPage';
 import TrackerPage from './pages/TrackerPage';
 import JobDetailsPage from './pages/JobDetailsPage';
@@ -78,6 +79,7 @@ function AppRoutes() {
       <HideNavOnAuth />
       <Routes>
         <Route path="/" element={<JobBoardPage />} />
+        <Route path="/jobs-all" element={<AllJobsPage />} />
         <Route path="/saved" element={<SavedJobsPage />} />
         <Route path="/tracker" element={<TrackerPage />} />
         <Route path="/auth" element={<AuthPage />} />
