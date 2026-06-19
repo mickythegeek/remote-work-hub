@@ -3,6 +3,7 @@ import * as Sentry from '@sentry/node';
 import authRoutes from './routes/authRoutes';
 import jobRoutes from './routes/jobRoutes';
 import bookmarkRoutes from './routes/bookmarkRoutes';
+import resumeRoutes from './routes/resumeRoutes';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
@@ -21,6 +22,7 @@ app.get('/api', (req: Request, res: Response) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/jobs', jobRoutes);
 app.use('/api/bookmarks', bookmarkRoutes);
+app.use('/api/resumes', resumeRoutes);
 
 // Sentry hook to capture unhandled errors
 Sentry.setupExpressErrorHandler(app);

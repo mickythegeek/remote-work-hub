@@ -21,8 +21,8 @@ export default function SavedJobsPage() {
 
   return (
     <div className="container" style={{ paddingTop: 48, paddingBottom: 64 }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 40 }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.25rem' }}>Saved Jobs</h1>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 40, flexWrap: 'wrap' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4vw, 2.25rem)' }}>Saved Jobs</h1>
         <span style={{
           background: 'var(--bg-base)',
           border: '1px solid var(--border-subtle)',
@@ -42,7 +42,7 @@ export default function SavedJobsPage() {
           <button onClick={() => navigate('/')} className="btn btn--primary" style={{ marginTop: 20 }}>Browse Jobs</button>
         </div>
       ) : (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--grid-gap)' }}>
+        <div className="job-grid-3">
           {savedJobs.map(job => (
             <div key={job.id} className="card" style={{ padding: 24, display: 'flex', flexDirection: 'column', gap: 16 }}>
               {/* Card Header */}

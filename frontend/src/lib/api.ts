@@ -1,7 +1,7 @@
 // Centralized API client - single source of truth for base URL
-// const API_BASE = 'http://localhost:3333/api';
+const API_BASE = 'http://localhost:3000/api';
 
-const API_BASE = 'https://remote-work-hub.onrender.com/api';
+// const API_BASE = 'https://remote-work-hub.onrender.com/api';
 
 function getAuthHeaders(): Record<string, string> {
   const token = localStorage.getItem('auth_token');
