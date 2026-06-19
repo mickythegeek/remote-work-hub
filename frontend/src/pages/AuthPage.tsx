@@ -43,7 +43,7 @@ export default function AuthPage() {
   };
 
   return (
-    <div style={{ minHeight: 'calc(100vh - 60px)', background: 'var(--bg-base)', display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 48 }}>
+    <div style={{ minHeight: 'calc(100vh - 60px)', background: 'var(--bg-base)', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '48px var(--space-md) 0' }}>
       {/* Brand heading */}
       <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.75rem', color: 'var(--navy)', marginBottom: 32 }}>
         Remote Work Hub
@@ -72,7 +72,7 @@ export default function AuthPage() {
       </div>
 
       {/* Card */}
-      <div className="card" style={{ width: '100%', maxWidth: 420, padding: 40 }}>
+      <div className="card auth-card" style={{ width: '100%', maxWidth: 420, padding: 40 }}>
         <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', marginBottom: 8, color: 'var(--text-primary)' }}>
           {mode === 'login' ? 'Welcome Back' : 'Create Account'}
         </h2>
@@ -112,7 +112,7 @@ export default function AuthPage() {
 
         <div className="divider" style={{ margin: '24px 0' }}>OR CONTINUE WITH</div>
 
-        <div style={{ display: 'flex', gap: 12 }}>
+        <div className="auth-social-row" style={{ display: 'flex', gap: 12 }}>
           <button className="social-btn">
             <img src="https://www.google.com/favicon.ico" width={16} height={16} alt="Google" />
             Google
@@ -133,9 +133,9 @@ export default function AuthPage() {
       </p>
 
       {/* Footer */}
-      <footer style={{ marginTop: 'auto', padding: '32px var(--space-lg)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)' }}>
+      <footer className="auth-footer" style={{ marginTop: 'auto', padding: '32px var(--space-lg)', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)' }}>
         <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>© 2024 REMOTE WORK HUB. BUILT BY G3MS .</span>
-        <div style={{ display: 'flex', gap: 24 }}>
+        <div className="auth-footer__links" style={{ display: 'flex', gap: 24 }}>
           {['PRIVACY', 'TERMS', 'SUPPORT'].map(l => (
             <a key={l} href="#" style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 600 }}>{l}</a>
           ))}

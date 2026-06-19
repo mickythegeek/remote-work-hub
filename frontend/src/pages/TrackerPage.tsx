@@ -56,9 +56,9 @@ export default function TrackerPage() {
   return (
     <div className="container" style={{ paddingTop: 48, paddingBottom: 64 }}>
       {/* Page Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 40 }}>
+      <div className="page-header">
         <div>
-          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '2.25rem' }}>Application Pipeline</h1>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4vw, 2.25rem)' }}>Application Pipeline</h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: 6 }}>Managing {total} active opportunities across the globe.</p>
         </div>
         <button className="btn btn--primary" onClick={() => setAddingTo('Applied')} style={{ gap: 8 }}>
@@ -67,7 +67,7 @@ export default function TrackerPage() {
       </div>
 
       {/* Kanban Board */}
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 'var(--grid-gap)' }}>
+      <div className="kanban-board">
         {STAGES.map(stage => {
           const stageApps = apps.filter(a => a.stage === stage);
           const isRejected = stage === 'Rejected';

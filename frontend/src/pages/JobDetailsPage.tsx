@@ -59,16 +59,16 @@ export default function JobDetailsPage() {
     <div style={{ background: 'var(--bg-base)', minHeight: 'calc(100vh - 60px)', paddingBottom: 80 }}>
       {/* Back nav */}
       <div className="container" style={{ paddingTop: 24, paddingBottom: 0 }}>
-        <button
-          onClick={() => navigate(-1)}
+        <Link
+          to="/"
           style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500, marginBottom: 28 }}
         >
           <ArrowLeft size={16} /> Back to job board
-        </button>
+        </Link>
       </div>
 
       <div className="container">
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: 40, alignItems: 'start' }}>
+        <div className="layout-two-col layout-two-col--wide">
 
           {/* ======== LEFT COLUMN ======== */}
           <div>
@@ -107,7 +107,7 @@ export default function JobDetailsPage() {
             </div>
 
             {/* Role Overview */}
-            <div className="card" style={{ padding: 32, marginBottom: 24 }}>
+            <div className="card detail-card" style={{ padding: 32, marginBottom: 24 }}>
               <h2 style={{
                 fontFamily: 'var(--font-display)',
                 fontSize: '1.2rem',
@@ -130,7 +130,7 @@ export default function JobDetailsPage() {
             </div>
 
             {/* Company Card */}
-            <div className="card" style={{ padding: 28 }}>
+            <div className="card detail-card" style={{ padding: 28 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 20 }}>
                 <div style={{ width: 56, height: 56, background: 'var(--bg-base)', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.6rem', flexShrink: 0, border: '1px solid var(--border-subtle)' }}>
                   🏢
@@ -147,7 +147,7 @@ export default function JobDetailsPage() {
           </div>
 
           {/* ======== RIGHT COLUMN (sticky) ======== */}
-          <div style={{ position: 'sticky', top: 80, display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div className="layout-two-col__sidebar layout-two-col__sidebar--top">
 
             {/* CTA Card */}
             <div className="card" style={{ padding: 24 }}>
