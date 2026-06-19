@@ -48,49 +48,48 @@ export default function JobBoardPage() {
   return (
     <div>
       {/* Hero Section */}
-      <section style={{ background: 'var(--bg-base)', padding: '56px var(--space-lg) 48px' }}>
-        <div className='space-y-5' style={{ maxWidth: 'var(--container-width)', margin: '0 auto', background: "var(--navy)", padding: '20px', borderRadius: 'var(--radius-md)'}}>
-          {/* <span className="chip chip--navy" style={{ marginBottom: 20, display: 'inline-block' }}>ELITE NETWORK</span> */}
-          <h1 className="font-manrope  text-6xl font-bold text-white">
+      <section className="hero-section">
+        <div className="hero-inner space-y-5">
+          <h1 className="hero-title">
             Curating the world's most elite
             remote opportunities.
           </h1>
 
           {/* Search bar */}
-          <div style={{ display: 'flex', gap: 0, background: 'var(--bg-surface)', border: '1px solid var(--border-subtle)', borderRadius: 'var(--radius-md)', overflow: 'hidden', maxWidth: 820, boxShadow: 'var(--shadow-card)', marginTop: "40px"}}>
-            <div style={{ flex: 1, display: 'flex', alignItems: 'center', padding: '0 16px', gap: 12 }}>
+          <div className="search-bar">
+            <div className="search-bar__input-wrap">
               <Search size={18} color="var(--text-muted)" />
               <input
                 type="text"
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 placeholder="Job title, keywords, or company..."
-                style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.95rem', color: 'var(--text-primary)', width: '100%', padding: '14px 0' }}
+                className="search-bar__input"
               />
             </div>
-            <div style={{ width: 1, background: 'var(--border-subtle)' }} />
-            <div style={{ display: 'flex', alignItems: 'center', padding: '0 16px', gap: 8, minWidth: 180 }}>
+            <div className="search-bar__divider" />
+            <div className="search-bar__select-wrap">
               <ChevronDown size={16} color="var(--text-muted)" />
               <select
                 value={category}
                 onChange={e => setCategory(e.target.value)}
-                style={{ border: 'none', outline: 'none', background: 'transparent', fontSize: '0.9rem', color: 'var(--text-secondary)', cursor: 'pointer', width: '100%' }}
+                className="search-bar__select"
               >
                 {CATEGORIES.map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
-            <button className="btn btn--secondary" style={{ borderRadius: 0, padding: '0 28px' }}>Search Jobs</button>
+            <button className="btn btn--secondary search-bar__btn">Search Jobs</button>
           </div>
         </div>
       </section>
 
       {/* Content */}
       <div className="container" style={{ paddingTop: 48, paddingBottom: 64 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 'var(--grid-gap)', alignItems: 'start' }}>
+        <div className="layout-two-col">
 
           {/* LEFT: Jobs */}
           <div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 24 }}>
+            <div className="section-header">
               <div>
                 <h2 style={{ fontFamily: 'var(--font-display)', fontSize: '1.5rem' }}>Latest Openings</h2>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginTop: 4 }}>Hand-picked roles from top-tier organizations.</p>
@@ -118,7 +117,7 @@ export default function JobBoardPage() {
                 )}
 
                 {/* Compact secondary cards — 3-column grid below featured */}
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 'var(--grid-gap)', marginTop: 'var(--grid-gap)' }}>
+                <div className="job-grid-3" style={{ marginTop: 'var(--grid-gap)' }}>
                   {secondary.map(job => (
                     <CompactCard
                       key={job.id}
@@ -152,8 +151,8 @@ export default function JobBoardPage() {
 
 function FeaturedCard({ job, isSaved, onSave, onClick }: { job: Job; isSaved: boolean; onSave: () => void; onClick: () => void }) {
   return (
-    <div className="card" style={{ padding: '28px 32px', cursor: 'pointer' }} >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+    <div className="card featured-card" style={{ padding: '28px 32px', cursor: 'pointer' }} >
+      <div className="featured-card__header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div style={{ flex: 1 }} onClick={onClick}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
 <div
@@ -207,7 +206,7 @@ function FeaturedCard({ job, isSaved, onSave, onClick }: { job: Job; isSaved: bo
             {job.description?.replace(/<[^>]*>/g, '').substring(0, 120)}...
           </p>
         </div> 
-        <button onClick={e => { e.stopPropagation(); onSave(); }} style={{ marginLeft: 20, color: isSaved ? 'var(--navy)' : 'var(--text-muted)' }}>
+        <button onClick={e => { e.stopPropagation(); onSave(); }} className="featured-card__save" style={{ marginLeft: 20, color: isSaved ? 'var(--navy)' : 'var(--text-muted)' }}>
           <Bookmark size={20} fill={isSaved ? 'var(--navy)' : 'none'} style={{ cursor: 'pointer' }} />
         </button>
       </div>

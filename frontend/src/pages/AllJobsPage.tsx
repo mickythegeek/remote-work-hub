@@ -49,7 +49,7 @@ export default function AllJobsPage() {
   return (
     <div>
       {/* Header Section */}
-      <section style={{ background: 'var(--bg-base)', padding: '40px var(--space-lg)', borderBottom: '1px solid var(--border-subtle)' }}>
+      <section className="page-section-header" style={{ background: 'var(--bg-base)', padding: '40px var(--space-lg)', borderBottom: '1px solid var(--border-subtle)' }}>
         <div style={{ maxWidth: 'var(--container-width)', margin: '0 auto' }}>
           <button
             onClick={() => navigate(-1)}
@@ -57,7 +57,7 @@ export default function AllJobsPage() {
           >
             <ArrowLeft size={16} /> Back
           </button>
-          <h1 className="text-4xl font-bold">All Job Listings</h1>
+          <h1 style={{ fontFamily: 'var(--font-display)', fontSize: 'clamp(1.5rem, 4vw, 2.25rem)', fontWeight: 700 }}>All Job Listings</h1>
           <p style={{ color: 'var(--text-secondary)', marginTop: 8 }}>
             {filtered.length} {filtered.length === 1 ? 'position' : 'positions'} matching your filters
           </p>
@@ -114,8 +114,8 @@ export default function AllJobsPage() {
 
 function JobRow({ job, onClick, isSaved, onSave }: { job: Job; onClick: () => void; isSaved: boolean; onSave: () => void }) {
   return (
-    <div className="card" style={{ padding: '20px 24px', cursor: 'pointer', borderBottom: '1px solid var(--border-subtle)', borderRadius: 0 }} onClick={onClick}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
+    <div className="card job-row" style={{ padding: '20px 24px', cursor: 'pointer', borderBottom: '1px solid var(--border-subtle)', borderRadius: 0 }} onClick={onClick}>
+      <div className="job-row__inner" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 16 }}>
         <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start', flex: 1 }}>
           <div
             style={{

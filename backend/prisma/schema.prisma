@@ -17,6 +17,7 @@ model User {
   
   bookmarks    Bookmark[]
   applications Application[]
+  resumes      Resume[]
 }
 
 model Bookmark {
@@ -57,4 +58,63 @@ enum ApplicationStatus {
   INTERVIEW
   OFFER
   REJECTED
+}
+
+model Resume {
+  id        String   @id @default(uuid())
+  title     String   @default("Untitled Resume")
+  fullName  String
+  email     String
+  phone     String
+  address   String?
+  summary   String?
+  skills    String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  experiences Experience[]
+  educations  Education[]
+  projects    Project[]
+}
+
+model Experience {
+  id          String    @id @default(uuid())
+  company     String
+  role        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  resumeId    String
+  resume      Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+}
+
+model Education {
+  id        String    @id @default(uuid())
+  school    String
+  degree    String
+  startDate DateTime
+  endDate   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  resumeId  String
+  resume    Resume    @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+}
+
+model Project {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  link        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  resumeId    String
+  resume      Resume   @relation(fields: [resumeId], references: [id], onDelete: Cascade)
 }
