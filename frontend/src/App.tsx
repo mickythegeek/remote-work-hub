@@ -118,6 +118,8 @@ function NavBar() {
     </>
   );
 
+  
+
   return (
     <header className="navbar">
       <Link to="/" className="navbar__brand-link" onClick={closeMenu}>
